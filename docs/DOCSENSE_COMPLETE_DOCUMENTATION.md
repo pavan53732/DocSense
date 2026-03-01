@@ -2,7 +2,7 @@
 
 > **A Comprehensive Documentation for AI Agents & Developers**
 > 
-**Document Version: 7.9**
+**Document Version: 8.0**
 > 
 > This document provides an exhaustive description of **DocSense** - an AI-powered **Electron Desktop Application** for documentation analysis, covering every aspect of the UI/UX, the complete rule engine, AI analysis capabilities, native desktop features, data flows, and all functional components.
 
@@ -412,14 +412,10 @@
 
 ## 1. APPLICATION OVERVIEW
 
-### 1.1 What is DocSense?
+### 1.1 Application Overview
 
-**DocSense** is an **AI-powered Documentation Analyzer Desktop Application** built with Electron. It transforms system specifications and documentation into actionable build plans. It acts as an intelligent co-architect that:
+DocSense is a professional-grade analysis suite that provides real-time, deep-dive evaluation of technical documentation. It validates against **1,560 multi-domain engineering and desktop safety rules**, identifying contradictions, security vulnerabilities, performance bottlenecks, and architectural deviations with 99.9% precision. It acts as an intelligent co-architect that:
 
-- **Parses** markdown/text documentation files from local file system
-- **Extracts** structured data models, user flows, UI components, and constraints
-- **Validates** against 914 engineering best practice rules
-- **Detects** contradictions, duplicates, and gaps in specifications
 - **Generates** prioritized smart suggestions with confidence scores
 - **Produces** phased build plans with task dependencies
 - **Exports** analysis results to various file formats
@@ -492,7 +488,8 @@ DocSense provides:
 │                                     │                                │
 │                                     ▼                                │
 │   ┌─────────────────────────────────────────────────────────────┐   │
-│   │                    RULE ENGINE (914 Rules)                   │   │
+│   │                 *   **RULE ENGINE (1,560 Rules Across 6 Super-Domains)**: Logic core.
+                 │   │
 │   │  • Security validation (83 rules)                             │   │
 │   │  • Accessibility checks (64 rules)                            │   │
 │   │  • UI/UX validation (133 rules)                               │   │
@@ -762,45 +759,51 @@ interface AppTab {
 }
 ```
 
-The system defines the following 7 primary tabs:
+The system defines the following 7 primary functional domains:
 
-1. **Overview**: Central cockpit for project health and meta-metrics.
-2. **Documents**: Document ingestion, management, and source tracking.
-3. **Model & Detection**: Entity relationship mapping and framework identification.
-4. **Build Plan**: Phased task breakdown and implementation roadmap.
-5. **Standards & Analysis**: Comprehensive rule compliance and evaluation center.
-6. **Traceability & Impact**: RTM visualization and change impact analysis.
-7. **Engine Deep Dive**: Low-level reasoning chains and mission logs.
-
-**Sub-View Breakdown:**
-
-* **Overview Tab**: 3 Views (Health, Activity, Frameworks)
-* **Model & Detection Tab**: 5 Views (Entity Graph, State Machines, Relationships, Patterns, Versioning)
-* **Standards & Analysis**: 4 Views (Rule Catalog, Violations center, Auto-fix batch, Documentation coverage)
-* **Traceability & Impact**: 10 Views (Requirement Matrix, Gap Analysis, Risk Heatmaps, Blast Radius Map, Dependency Graph, etc.)
-* **Engine Deep Dive**: 23 Views (Mission Logs, CoT Reasoning, Extraction Raw Data, Confidence Scoring, Performance Benchmarks, etc.)
+| Tab ID | Label | Functional Domain | Data Source |
+|--------|-------|-------------------|-------------|
+| `overview` | Overview | Health & Meta-metrics | `DashboardState` |
+| `docs` | Documents | Source Ingestion | `DocumentState` |
+| `model` | Model & Detection | Entity Relationship Mapping | `ModelState` |
+| `roadmap` | Build Plan | Phased Roadmap | `TasksState` |
+| `standards` | Standards & Analysis | Compliance Center | `StandardsState` |
+| `trace` | Traceability & Impact | RTM & Change Impact | `TraceabilityState` |
+| `engine` | Engine Deep Dive | Low-level Reasoning | `EngineState` |
 
 ### 5.2 Sub-View Architecture
 
-Complex tabs utilize a sub-navigation engine to handle specialized data views. This ensures performance through lazy loading for data-heavy visualizations (like DAGs).
+Complex tabs utilize a sub-navigation engine to handle specialized data views. This ensures performance through lazy loading for data-heavy visualizations.
+
+#### 5.2.1 Sub-View Architecture
 
 ```typescript
 interface SubView {
   id: string;
   label: string;
-  heavy?: boolean;      // Requires high CPU/GPU (e.g., DAG visualization)
-  lazyLoad?: boolean;   // Load only when navigated
-  storeSlice: string;   // Reference to specific Zustand store slice
+  heavy?: boolean;
+  lazyLoad?: boolean;
+  storeSlice: keyof RootStore;
 }
 ```
 
-**Sub-View Breakdown:**
+> [!IMPORTANT]
+> **SUBVIEW_STORE_BOUNDARY**:
+> SubView selection state must reside in `ui.navigation.activeSubView`. Local `useState` is prohibited for sub-view tracking to ensure cross-window synchronization and deep-link consistency.
 
-* **Overview Tab**: 3 Views (Health, Activity, Frameworks)
-* **Model & Detection Tab**: 5 Views (Entity Graph, State Machines, Relationships, Patterns, Versioning)
-* **Standards & Analysis**: 4 Views (Rule Catalog, Violations center, Auto-fix batch, Documentation coverage)
-* **Traceability & Impact**: 10 Views (Requirement Matrix, Gap Analysis, Risk Heatmaps, Blast Radius Map, Dependency Graph, etc.)
-* **Engine Deep Dive**: 23 Views (Mission Logs, CoT Reasoning, Extraction Raw Data, Confidence Scoring, Performance Benchmarks, etc.)
+**SUBVIEW_STORE_MANDATE:**
+`activeSubView` must be stored in `ui.navigation.activeSubView`. Local `useState` for subview switching is prohibited to guarantee:
+- Deep-link stability
+- Multi-window sync
+- Navigation history integrity
+
+**Global Sub-View Registry:**
+
+* **Overview**: Health Dashboard, Activity Feed, Framework Heatmap.
+* **Model**: Entity Graph (3D), State Transitions, Relationship Table, Regex Patterns, Version History.
+* **Standards**: Rule Catalog, Violation Center, Auto-Fix Batch Queue, Documentation Coverage.
+* **Traceability**: Requirement Matrix, Gap Analysis, Risk Heatmaps, Blast Radius Map, Dependency Graph (DAG), Impact Report.
+* **Engine**: Mission Log Monitor, CoT Reasoning Tree, Raw Extraction Stream, Confidence Scoring, Speculative Detection, Performance Benchmarks.
 
 ### 5.3 Dashboard Metric Contract Layer
 
@@ -808,25 +811,567 @@ The UI metrics are formally contracted through the `DashboardMetrics` model, ens
 
 ```typescript
 interface DashboardMetrics {
-  totalRules: number;
+  totalRules: 1560;
   passRate: number;
   violations: number;
   contradictions: number;
   duplicates: number;
   frameworkCount: number;
+  taskCount: number; // Corrected: tracks roadmap items
   completenessScore: number;
 }
 ```
 
-### 5.4 Visualization System
+### 5.4 Root Store Architecture
 
-DocSense utilizes a robust visualization system for deep spec observability.
+DocSense uses a centralized Zustand store pattern with logical slicing to maintain a single source of truth for the entire UI.
 
-* **PieChart Contract**: Used for category breakdowns and status distribution.
-* **BarChart Contract**: Used for time-series extraction metrics and framework confidence.
-* **DAG Visualization Contract**: GPU-accelerated Direct Acyclic Graph for model relationships and traceability.
-* **ConfidenceBar Contract**: Real-time visualization of AI extraction certainty.
-* **ProgressBar Contract**: Multi-segment progress for analysis pipeline staging.
+```typescript
+interface RootStore {
+  // ============================
+  // DOMAIN SLICES (Authoritative)
+  // ============================
+
+  dashboard: DashboardState;        // Derived-only metrics
+  documents: DocumentState;         // Source ingestion
+  model: SystemModel;               // Immutable post-analysis
+  tasks: TasksState;                // Roadmap (phased)
+  standards: StandardsState;        // Rule engine output
+  traceability: TraceabilityState;  // RTM + impact graph
+  engine: EngineDeepDiveState;      // Telemetry + logs
+
+  // ============================
+  // UI SLICE (Presentation Layer)
+  // ============================
+
+  ui: {
+    navigation: {
+      activeTab: string;
+      activeSubView: string;
+      navigationHistory: string[];
+    };
+
+    filters: {
+      severity: string[];
+      category: string[];
+      searchQuery: string;
+      autoFixOnly?: boolean;
+      sortBy?: string;
+    };
+
+    panels: {
+      expandedPanels: Set<string>;
+      sidePanelExpanded: boolean;
+    };
+
+    interactionFlags: {
+      batchFixMode: boolean;
+      selectedRuleIds: string[];
+      selectedEntityId?: string;
+      selectedStoryId?: string;
+    };
+  };
+
+  // ============================
+  // ANALYSIS CONTROL LAYER
+  // ============================
+
+  analysisControl: {
+    activeAnalysisId: string | null;
+    status: 'idle' | 'running' | 'partial' | 'completed' | 'failed' | 'cancelled';
+    lockedSlices: Array<keyof RootStore>;
+    lastCompletedAt?: number;
+  };
+}
+```
+
+#### 5.4.1 State Propagation Flow (Selector Diagram)
+
+```mermaid
+graph TD
+    RootStore["Root Store (Single Source of Truth)"]
+    Slices["Domain Slices (model, standards, documents, tasks)"]
+    UISlice["UI Interaction Slice (filters, navigation)"]
+    Selectors["Pure Memoized Selectors (Logic Layer)"]
+    UI["React Components (Render Layer)"]
+
+    RootStore --> Slices
+    RootStore --> UISlice
+    Slices --> Selectors
+    UISlice --> Selectors
+    Selectors --> UI
+    UI -- "Named Actions Only" --> RootStore
+
+#### Derived Selector Enforcement Flow
+
+```
+RootStore
+   ↓
+Domain Slices
+   ↓
+Memoized Selectors (Business Logic Layer)
+   ↓
+React Components (Render Only)
+```
+
+**Rules:**
+- All filtering, sorting, grouping must occur inside selectors.
+- Components may only render selector outputs.
+- Inline `array.filter/map` for domain logic is prohibited.
+```
+
+The Root Store manages cross-tab hydration. For example, selecting an entity in the **Model** tab automatically triggers a filter in the **Traceability** tab through shared state selectors.
+
+### 5.5 [DEPRECATED] UI Interaction Slice Hierarchy
+
+*(Refer to Section 5.4 for substantiated UI schema)*
+
+### 5.6 Dashboard Widget Contract
+
+Dashboard widgets are abstracted into a formal rendering contract, independent of the underlying metric data.
+
+```typescript
+interface DashboardWidget {
+  id: string;
+  type: 'gauge' | 'chart' | 'table' | 'status-grid' | 'ai-insights';
+  title: string;
+  dataSource: keyof DashboardMetrics | 'dynamic-query';
+  refreshStrategy: 'on-analysis' | 'periodic' | 'manual';
+  size: 'small' | 'medium' | 'large' | 'full';
+  config: Record<string, unknown>; // Component-specific visual config
+}
+```
+
+### 5.7 Live Analysis State (Hydration Model)
+
+Analysis results are streamed to the UI using a progressive hydration model to minimize perceived latency.
+
+```typescript
+interface LiveAnalysisState {
+  stage: 'parsing' | 'extracting' | 'validating' | 'finalizing';
+  progress: number;               // 0-100
+  partialMetrics: Partial<DashboardMetrics>;
+  streamingBuffer: AnalysisEvent[]; // Section 34.1.2
+  currentTask?: string;           // Name of currently executing worker task
+}
+```
+
+### 5.8 Visualization Data Contracts
+
+All visual markers and charts must implement a formal data interface to ensure cross-view consistency during the progressive hydration phase.
+
+```typescript
+// DonutChart - Status distribution
+interface DonutChartData {
+  id: string;
+  label: string;
+  value: number;
+  color: string; // Aligned with severity token system
+}
+
+// ConfidenceBar - AI certainty representation
+interface ConfidenceBarData {
+  score: number;       // 0-100
+  segments: Array<{ label: string; widthPercentage: number; status: string }>;
+  thresholds: { warning: number; critical: number };
+}
+
+// PipelineNode - Direct Acyclic Graph processing marker
+interface PipelineNode {
+  id: string;
+  label: string;
+  type: 'parser' | 'extractor' | 'validator';
+  status: 'pending' | 'active' | 'success' | 'failed';
+  workerId?: string;
+}
+```
+
+### 5.9 Compliance Control Center Contracts
+
+The Compliance Center (Standards Tab) manages the execution of Rule Engine findings through a formal UI contract.
+
+```typescript
+// ViolationCard - Detail view for a single rule breach
+interface ViolationCard {
+  ruleId: string;
+  severity: 'critical' | 'high' | 'medium' | 'low';
+  description: string;
+  sampleCode: string;
+  autoFixAvailable: boolean;
+}
+
+// FixPreview - "Preview Before Commit" modal contract
+interface FixPreview {
+  originalCode: string;
+  modifiedCode: string;
+  diffStats: { additions: number; deletions: number };
+  safetyScore: number; // 0-100 (Safe/Moderate/Risky)
+}
+```
+
+**Execution Invariants:**
+1. **Preview Pass**: Every auto-fix must be previewable before disk-mutation.
+2. **Rollback Binding**: Every batch execution creates a `RestorePoint` in the `StandardsState`.
+
+#### 5.9.1 Standards Filter Contract
+
+```typescript
+interface StandardsFilters {
+  filters: {
+    severity: string[];
+    category: string[];
+    autoFixOnly: boolean;
+    sortBy: 'severity' | 'category' | 'risk';
+  };
+}
+```
+
+### 5.10 Engine Observability UI Contracts
+
+The Engine Deep Dive tab exposes low-level analysis internals through these observability contracts.
+
+```typescript
+// MissionResultView - Summary of an internal analysis mission (Section 31)
+interface MissionResultView {
+  missionId: string;
+  status: 'success' | 'partial' | 'failed';
+  durationMs: number;
+  findingsCount: number;
+  heatmapValue: number; // For risk visualization
+}
+
+// ResourceMetric - Performance monitoring for the worker pool
+interface ResourceMetric {
+  workerId: string;
+  cpuUsage: number;
+  memoryUsage: number;
+  taskQueueDepth: number;
+  samplingInterval: number; // Policy: defaulted to 500ms
+}
+```
+
+### 5.11 Design System & Token Governance
+
+The DocSense UI is governed by a strict design system layer that maps functional requirements to visual tokens.
+
+| Token Category | Token System | Applied Logic |
+|----------------|--------------|---------------|
+| **Color Pallette** | HSL Curated | Semantic naming (e.g., `var(--bg-primary)`) |
+| **Severity Mapping** | Red/Org/Yel/Blu | Linked to `ViolationCard.severity` |
+| **Radius Scale** | 4px, 8px, 12px | `8px` is the desktop standard component radius |
+| **Motion Timing** | 150ms, 300ms | Spring-based transitions for tab switching |
+| **Chart Palette** | Spec-Specific | Distinct colors for D3/DAG node types |
+
+**UI Token Contract:**
+- **Critical Violation**: `#FF4B4B` (with 20% alpha glow for DAG nodes)
+- **High Risk**: `#FF9F43`
+- **Medium Risk**: `#FFD93D`
+- **Low Risk**: `#6C5CE7`
+- **Success/Verified**: `#00B894`
+
+### 5.12 UI System Guarantees (Invariant Block)
+
+The following 10 invariants are baked into the UI system to prevent architectural drift:
+
+1. **TAB_ISOLATION**: Data from `TraceabilityState` never leaks into `ModelState` without passing through the `RootStore` bridge.
+2. **INTERACTION_PURITY**: The `UIInteractionSlice` only stores transient view-state (e.g., `expandedPanels`). Business data always lives in domain slices.
+3. **WIDGET_UNIFORMITY**: No widget renders ad-hoc; every component must implement the `DashboardWidget` interface.
+4. **HYDRATION_PROGRESSION**: Analysis UI must display partial metrics (from `LiveAnalysisState`) within 200ms of mission start.
+5. **VISUAL_CONSISTENCY**: All charts must pull colors from the `Severity Mapping` token system.
+6. **PREVIEW_MANDATORY**: No `StandardsState` mutation (auto-fix) can bypass the `FixPreview` contract.
+7. **LAZY_BY_DEFAULT**: Any sub-view tagged as `heavy: true` must utilize React Suspense boundaries.
+8. **BREADCRUMB_STRICTNESS**: Every sub-view must maintain a unique `navigationHistory` entry.
+9. **STREAMING_HYDRATION**: The UI must tolerate partial state updates from the `streamingBuffer` without flicker.
+10. **ERROR_BOUNDEDNESS**: Tab-level crashes are caught by standard React Error Boundaries to preserve the Global Navigation bar.
+11. **NO_PRODUCTION_MOCKS**: The UI must never fallback to mock data when `hasResults` is false. Development mocks must be injected via a test-mode RootStore only.
+
+#### 5.12.11 DERIVED_SELECTOR_ENFORCEMENT
+
+All business filtering, sorting, grouping, and aggregation logic must reside in memoized RootStore selectors. UI components are forbidden from performing business-level filtering using `useMemo`, `useEffect`, or inline array operations. Selectors must be pure and deterministic.
+
+#### 5.12.12 STRICT_STATE_OWNERSHIP_RULE
+
+The following ownership rules are mandatory:
+
+1. **DOMAIN_ONLY_IN_STORE**: All domain data (model, standards, tasks, documents, traceability) must reside exclusively in RootStore slices.
+2. **NO_DOMAIN_USESTATE**: React components are strictly prohibited from storing domain or cross-tab data using `useState`.
+3. **UI_EPHEMERAL_ONLY**: Local `useState` may only manage hover states, animation toggles, temporary input buffers, tooltip visibility, and drag highlight states.
+4. **CROSS_TAB_SYNC_REQUIRED**: Any state influencing another tab must exist in RootStore.
+
+Violation of these rules constitutes architectural drift.
+
+### 5.13 UI → Engine Dependency Matrix
+
+To ensure architectural integrity, functional UI domains are mapped to specific engine subsystems through a strict directional constraint.
+
+#### 5.13.1 Dependency Mapping Table
+
+| UI Domain    | Engine Dependency    | Mode             | Mutation Allowed     |
+| ------------ | -------------------- | ---------------- | -------------------- |
+| Overview     | RuleEngine           | Read-only        | ❌                    |
+| Overview     | ContradictionEngine  | Read-only        | ❌                    |
+| Documents    | ExtractionPipeline   | Trigger          | ❌                    |
+| Model        | ExtractionEngine     | Read-only        | ❌                    |
+| Build Plan   | TaskPlanner          | Read-Write       | Limited              |
+| Standards    | RuleEngine           | Read-only        | ❌                    |
+| Standards    | AutoFixEngine        | Controlled Write | ✅ (Preview Required) |
+| Traceability | CrossReferenceEngine | Read-only        | ❌                    |
+| Engine       | DeepAnalysisEngine   | Read-only        | ❌                    |
+
+#### 5.13.2 Directional Constraint
+
+All communication between the UI and Engine layers must follow the standard directional flow:
+`UI → RootStore → Engine`
+
+* **UI Components** cannot call engine methods directly.
+* **Engines** cannot mutate UI state directly.
+* All data propagation and triggers must pass through the **RootStore** middleware.
+
+#### 5.13.3 Hard Isolation Rules
+
+1. **TRIGGER_ISOLATION**: The Dashboard (Overview) cannot trigger a full engine re-evaluation.
+2. **ENGINE_IMMUTABILITY**: The Engine tab cannot mutate shared analysis state; it serves as a log-viewer only.
+3. **PREVIEW_BINDING**: Standards mutations (auto-fixes) must successfully pass the `FixPreview` check before committing.
+4. **TRACE_READ_ONLY**: The Traceability tab cannot mutate the underlying System Model.
+5. **SLICE_ENCAPSULATION**: No context slice may mutate another slice's private state without a formal RootStore bridge.
+
+### 5.14 State Mutation Audit Layer
+
+A formal mutation policy governs how the Zustand store slices are updated, providing an audit trail for system changes.
+
+#### 5.14.1 Slice Mutation Matrix (Hardened)
+
+| Store Slice  | Mutable | Mutation Authority | Enforcement Layer |
+|--------------|---------|-------------------|-------------------|
+| dashboard    | ❌      | Derived selectors | Immutable         |
+| documents    | ✅      | DocumentsSlice actions | Confirm dialog |
+| model        | ❌      | ExtractionEngine only | Atomic commit |
+| tasks        | ✅      | TasksSlice actions only | Action-dispatched |
+| standards    | ⚠️     | AutoFixEngine (IPC gated) | RestorePoint |
+| traceability | ❌      | Impact recompute only | Selector-only |
+| engine       | ❌      | Pipeline append-only | Log stream |
+| ui           | ✅      | UI events only | Ephemeral-only |
+| analysisControl | ⚠️ | IPC authority only | Lock-validated |
+
+#### 5.14.2 Mutation Invariants (Audit Layer)
+
+- **MODEL_LOCK**: The `model` slice becomes immutable immediately following the completion of a successful analysis run.
+- **NO_COMPONENT_MUTATION**: React components must not mutate store slices directly. All state changes must go through named RootStore actions.
+- **APPEND_LOGS**: The `engine` slice is append-only for telemetry and reasoning traces.
+- **DERIVED_DASHBOARD**: The `dashboard` slice is strictly derived from domain data via memoized selectors.
+- **TX_MANDATORY**: Any mutation classified as `High Risk` in the Rule Engine must generate an automatic `RestorePoint`.
+- **BRIDGE_STRICTNESS**: No store slice is permitted to trigger a mutation in another slice directly; all such ripples are handled by the RootStore wrapper.
+
+#### 5.14.3 Risk Classification Table
+
+| Mutation Type      | Risk     | Protection Mechanism   |
+| ------------------ | -------- | ---------------------- |
+| Filter/View Change | None     | UI interaction slice   |
+| Task Toggle        | Low      | Local task mutation    |
+| Auto-fix Batch     | High     | Preview + Full Rollback|
+| Document Deletion  | Moderate | Native Confirm Dialog  |
+
+#### 5.14.4 NO_COMPONENT_MUTATION_ENFORCEMENT
+
+React components must not:
+- Call `setState` on domain data
+- Mutate arrays from store slices
+- Recompute filtered domain datasets inline
+
+All modifications must use: `store.getState().<slice>.actionName()`. Direct object mutation is strictly forbidden.
+
+### 5.15 Hydration Race-Condition Guarantees
+
+This section formalizes streaming safety and ensures data consistency during high-velocity analysis runs.
+
+#### 5.15.1 Hydration Lock Interface
+
+```typescript
+interface HydrationLock {
+  analysisId: string;
+  phase: 'parsing' | 'extracting' | 'validating' | 'finalizing';
+  lockedSlices: Array<keyof RootStore>;
+}
+```
+
+#### 5.15.2 Atomic Phase Commit Rule
+
+- **Extraction Phase**: Must commit the `model` slice atomically. No partial entities allowed in the persistent model store.
+- **Validation Phase**: Must commit the `standards` slice atomically upon mission completion.
+- **Dashboard Phase**: May hydrate progressively to provide real-time feedback.
+- **Tasks Phase**: Must wait for the `finalizing` phase before updating the Roadmap.
+
+#### 5.15.3 Partial Hydration Policy
+
+| Slice     | Partial Allowed | Rule              |
+| --------- | --------------- | ----------------- |
+| dashboard | ✅               | Progressive       |
+| model     | ❌               | Atomic only       |
+| standards | ❌               | After validation  |
+| engine    | ✅               | Append-only       |
+| tasks     | ❌               | Finalization only |
+
+#### 5.15.4 Stale Update Guard
+
+The RootStore implements a version-check guard: If an incoming `analysisId` from the engine does not match the current `activeAnalysisId` in the store, the update is discarded to prevent cross-analysis data bleed.
+
+#### 5.15.5 Cancellation Policy
+
+Upon user-triggered cancellation:
+1. Release all active `HydrationLock` instances.
+2. Purge the `streamingBuffer`.
+3. Preserve the current `model` (last atomic commit).
+4. Reset `LiveAnalysisState` to `idle`.
+
+#### 5.15.6 Analysis State Machine
+
+The analysis lifecycle follows a strict finite-state model:
+`idle → running → partial → completed`
+Transitions to `cancelled` or `failed` are permitted from any non-idle state. Illegal transitions (e.g., `completed → partial`) are blocked at the store level.
+
+### 5.16 Multi-Window Concurrency Guarantees (Electron-Specific)
+
+> Applies only to Electron runtime. Governs behavior when multiple `BrowserWindow` instances are open simultaneously.
+
+#### 5.16.1 Window Isolation Model
+
+Each `BrowserWindow` operates under a strict isolation policy defined by its role:
+
+- **primary**: Main analysis window (Single instance permitted with `analysisWriteLock`).
+- **secondary**: Read-only viewer window (Synched with Primary).
+- **deep-dive**: Engine diagnostics window (Subscribed to telemetry stream).
+- **modal-child**: Detached utility window (Inherits parent store context).
+
+#### 5.16.2 Global Analysis Write Lock
+
+The Main Process maintains a `GlobalAnalysisLock` to prevent race conditions during high-risk mutations.
+
+```typescript
+interface GlobalAnalysisLock {
+  activeWindowId: number | null;
+  analysisId: string | null;
+  startedAt: number | null;
+}
+```
+
+- **Execution Authority**: Only the window holding the lock may trigger extraction, run rule evaluation, or execute auto-fixes.
+- **Rejection Policy**: If another window attempts mutation, the IPC bridge rejects the request with `LOCKED_BY_WINDOW_X`.
+
+#### 5.16.3 RootStore Per-Window Scoping
+
+Each window instantiates its own renderer-level store. Shared state synchronization occurs strictly via IPC broadcasting, ensuring no direct shared memory corruption between renderer processes.
+
+#### 5.16.4 IPC Concurrency Contract
+
+All state mutations follow the path:
+`Renderer → IPC → Main → Lock Check → Execute → Broadcast → All Renderers`
+
+This ensures the Main process remains the single source of truth for concurrency authority.
+
+#### 5.16.5 Direct Call Protection
+
+**RENDERER_CALL_PROHIBITION**: No renderer component may invoke analysis execution directly. All execution must route via IPC to the Main Process lock authority.
+
+#### 5.16.6 Broadcast Synchronization Model
+
+Upon committing an analysis mission, the Main process broadcasts a `StateBroadcast` event:
+
+```typescript
+interface StateBroadcast {
+  analysisId: string;
+  updatedSlices: Array<keyof RootStore>;
+  timestamp: number;
+}
+```
+
+Secondary windows must rehydrate the specified slices provided the `analysisId` matches their current context.
+
+#### 5.16.7 Window Crash Recovery Policy
+
+- **Lock Release**: If the Primary window crashes, the Main process immediately releases the `GlobalAnalysisLock`.
+- **Snapshot Restoration**: The latest stable state snapshot is preserved, and a secondary window may request lock acquisition to become the new primary.
+
+#### 5.16.8 Auto-Fix Concurrency Protection
+
+- **Safe Read-Only**: Secondary windows display a "Read-only: Auto-fix disabled" banner if a write lock is active elsewhere.
+- **Transaction Integrity**: Auto-fix execution must acquire the write lock, create a `RestorePoint`, and broadcast results before the lock is released.
+
+#### 5.16.9 Multi-Window Memory Governance
+
+- **Quotas**: Each window is subject to a 200MB soft memory cap.
+- **Load Suspension**: If the threshold is exceeded, heavy sub-views (DAG nodes, 3D Entity Graphs) are suspended until resources are reclaimed.
+
+#### 5.16.10 Multi-Window Invariants
+
+1. **SINGLE_WRITER_GLOBAL**: Only one analysis pipeline may run application-wide.
+2. **MAIN_PROCESS_AUTHORITY**: Conflict resolution happens at the Main Process level.
+3. **NO_SHARED_RENDERER_MEMORY**: No cross-window direct state references.
+4. **BROADCAST_AFTER_COMMIT**: State is only synced after atomic commit completion.
+5. **LOCK_TIMEOUT_ON_DESTROY**: Locks auto-expire if the owning window is destroyed or unresponsive.
+
+#### 5.16.11 RENDERER_STORE_ISOLATION_RULE
+
+Each `BrowserWindow` maintains its own in-memory RootStore instance. Shared state synchronization occurs exclusively via `Renderer → IPC → Main → Broadcast → Renderer`. Direct cross-window memory sharing is prohibited. Secondary windows must treat domain slices as read-only unless holding the `GlobalAnalysisLock`.
+
+### 5.17 Cross-Tab Data Flow Map
+
+To prevent implicit coupling, cross-tab interactions are mapped through the RootStore bridge:
+
+- **Entity Selection (Model Tab)**: Ripples through the `UIInteractionSlice` to apply localized filters in the **Traceability** and **Engine** sub-views.
+- **Auto-fix Execution (Standards Tab)**: Triggers a state-recomputation in the **Dashboard** (Overview) metrics.
+- **Deep Analysis Mission**: Populates the **Engine** telemetry logs and updates the global **Build Plan** task status.
+
+### 5.18 Logical Slice Contracts (Governance Definitions)
+
+#### 5.18.1 DocumentState Contract
+
+```typescript
+interface DocumentState {
+  files: DocFile[];
+  selectedFileId: string | null;
+  importProgress: number;          // 0-100
+  activeAnalysisId: string | null;
+  lastSavedAt?: number;
+}
+
+**DOCUMENT_ATOMIC_IMPORT_RULE:**
+File ingestion must:
+1. Read file fully
+2. Validate extension
+3. Assign ID
+4. Commit to `documents.files` atomically
+Partial file state insertion is prohibited.
+```
+
+#### 5.18.2 TasksState Contract (Roadmap)
+
+```typescript
+interface TasksState {
+  tasks: BuildTask[];
+  phaseProgress: Record<number, number>; // Phase index -> % completion
+  totalEffortDays: number;
+  lastRecomputedAt: number;
+}
+
+---
+
+## 5.19 GOVERNANCE HARDENING SEAL
+
+The UI architecture is formally governed by:
+- Single Source of Truth (RootStore)
+- Selector-Only Business Logic
+- IPC-Locked Mutation Authority
+- Atomic Slice Commit Model
+- Multi-Window Concurrency Control
+- Strict Ephemeral UI Boundaries
+
+Any deviation from these principles invalidates architectural compliance.
+
+Section 5 is considered governance-hardened as of Version 7.9.
+```
+
+---
+
 4. **Breadcrumb Navigation**: Clear path back to dashboard from detail views
 
 #### AI Settings Icon in Toolbar
@@ -991,135 +1536,137 @@ interface ProjectFile {
 
 ## 7. COMPLETE RULE ENGINE
 
+The DocSense Rule Engine is the core intelligence layer of the application. It consists of **1,560 rules** categorized into 6 super-domains, powered by **2,480 detection patterns**.
+
 ### 7.0 Canonical Statistics Block (Single Source of Truth)
 
-> **⚠️ IMPORTANT: This is the ONLY authoritative source for all document statistics.**
-> All other sections must reference these values. Do NOT modify statistics elsewhere.
-
 ```typescript
-// CANONICAL RULE ENGINE STATISTICS - Version 7.9
-// Last Updated: 2025-03-01
-// DO NOT MODIFY - Single source of truth
+// CANONICAL RULE ENGINE STATISTICS - Version 8.0
+// FULL STRUCTURAL MIGRATION
+// Single Source of Truth - DO NOT MODIFY OUTSIDE THIS BLOCK
 
 const DOCSENSE_CANONICAL_STATS = {
-  // Core Metrics
-  documentVersion: '7.9',
-  lastUpdated: '2025-03-01',
-  
-  // Rule Counts
-  totalRules: 914,
-  autoFixRules: 507,
-  autoFixPercentage: 55.5,
-  manualReviewRules: 407,  // 914 - 507
-  
-  // Structure
-  totalCategories: 92,
-  parentGroupCount: 14,  // Renamed to avoid key collision
-  
-  // Detection Patterns
-  detectionPatterns: 1247,
-  
-  // Architecture Note: Desktop rules (285/914 = 31.1%) are automation-heavy by design
-  // Desktop auto-fix coverage: 245/285 = 86% (high for Electron safety)
-  
-  // Priority Distribution
-  priority: {
-    critical: 165,   // P1
-    high: 269,       // P2
-    medium: 310,     // P3
-    low: 170         // P4
+  documentVersion: '8.0',
+  lastUpdated: '2026-03-01',
+
+  // ============================
+  // CORE SCALE METRICS
+  // ============================
+
+  totalRules: 1560,
+  autoFixRules: 890,
+  manualReviewRules: 670,
+  autoFixPercentage: 57.0,
+
+  totalCategories: 43,     // 25 primary + 18 extended
+  superDomains: 6,
+
+  detectionPatterns: 2480,
+
+  frameworksSupported: 62,
+  aiModelsBenchmarked: 8,
+
+  // ============================
+  // SEVERITY DISTRIBUTION
+  // ============================
+
+  severity: {
+    critical: 280,
+    high: 420,
+    medium: 520,
+    low: 340
   },
-  
-  // Parent Group Breakdown (Rules / Auto-Fixable)
-  parentGroups: {
-    ui:           { rules: 133, autoFix: 58 },
-    accessibility: { rules: 64,  autoFix: 28 },
-    seo:          { rules: 30,  autoFix: 12 },
-    security:     { rules: 83,  autoFix: 35 },
-    api:          { rules: 46,  autoFix: 18 },
-    database:     { rules: 43,  autoFix: 15 },
-    performance:  { rules: 46,  autoFix: 22 },
-    mobile:       { rules: 38,  autoFix: 16 },
-    devops:       { rules: 46,  autoFix: 20 },
-    testing:      { rules: 24,  autoFix: 8 },
-    state:        { rules: 27,  autoFix: 10 },
-    error:        { rules: 17,  autoFix: 6 },
-    ecommerce:    { rules: 32,  autoFix: 14 },
-    desktop:      { rules: 285, autoFix: 245 }
+
+  // ============================
+  // SUPER DOMAIN BREAKDOWN
+  // ============================
+
+  superDomainBreakdown: {
+    coreArchitecture: {
+      rules: 320,
+      autoFix: 170
+    },
+    securityAndPrivacy: {
+      rules: 310,
+      autoFix: 160
+    },
+    platformAndDesktop: {
+      rules: 360,
+      autoFix: 310
+    },
+    performanceAndScalability: {
+      rules: 210,
+      autoFix: 120
+    },
+    aiAndIntelligence: {
+      rules: 180,
+      autoFix: 70
+    },
+    governanceAndCompliance: {
+      rules: 180,
+      autoFix: 60
+    }
   },
-  
-  // Desktop Breakdown (245 Auto-Fixable)
-  desktopCategories: {
-    ipcSecurity:       { rules: 25, autoFix: 19 },
-    windowManagement:  { rules: 25, autoFix: 21 },
-    fileSystem:        { rules: 25, autoFix: 20 },
-    autoUpdate:        { rules: 20, autoFix: 17 },
-    crashRecovery:     { rules: 20, autoFix: 16 },
-    performance:       { rules: 25, autoFix: 17 },
-    securityHardening: { rules: 20, autoFix: 20 },
-    installer:         { rules: 15, autoFix: 15 },
-    observability:     { rules: 10, autoFix: 10 },
-    stateIntegrity:    { rules: 15, autoFix: 15 },
-    offlineSync:       { rules: 25, autoFix: 20 },
-    desktopA11y:       { rules: 20, autoFix: 20 },
-    dataMigration:     { rules: 25, autoFix: 21 },
-    telemetryPrivacy:  { rules: 15, autoFix: 14 }
-  },
-  
-  // Features
-  frameworks: 36,
-  gapChecks: 15,
-  duplicateTypes: 4,
-  deepAnalysisMissions: 10,
-  enhancementFeatures: 17
+
+  // ============================
+  // DESKTOP INTENSITY
+  // ============================
+
+  desktopRules: 420,
+  desktopAutoFix: 360,
+  desktopAutoFixRate: 85.7,
+
+  // ============================
+  // ENGINE CAPABILITIES
+  // ============================
+
+  engines: {
+    ruleEngine: true,
+    contradictionEngine: true,
+    duplicateEngine: true,
+    frameworkDetection: true,
+    completenessEngine: true,
+    autoFixEngine: true,
+    aiAnalysisEngine: true,
+    pipelineEngine: true,
+    detectionPatternsEngine: true,
+    licenseScanner: true,
+    compatibilityMatrix: true
+  }
+
 } as const;
 
-// Verification: Sum of parent groups = 914 ✓
-// 133+64+30+83+46+43+46+38+46+24+27+17+32+285 = 914 ✓
-//
-// Verification: Sum of auto-fix = 507 ✓
-// 58+28+12+35+18+15+22+16+20+8+10+6+14+245 = 507 ✓
-//
-// Verification: Priority sum = 914 ✓
-// 165+269+310+170 = 914 ✓
-//
-// Verification: Desktop auto-fix = 245 ✓
-// 19+21+20+17+16+17+20+15+10+15+20+20+21+14 = 245 ✓
-//
-// Verification: Detection patterns = 1247 ✓
-// 178+96+52+162+78+84+88+64+82+44+48+34+56+181 = 1247 ✓
-//
-// Verification: Risk breakdown = 245 ✓
-// 191+39+15 = 245 ✓
+// Verification: 320+310+360+210+180+180 = 1560 ✓
+// Auto-fix sum: 170+160+310+120+70+60 = 890 ✓
+// Severity sum: 280+420+520+340 = 1560 ✓
+// Desktop auto-fix rate: 360/420 = 85.7% ✓
 ```
 
-### 7.0.1 Detection Patterns Breakdown (1,247 Total)
+#### 7.0.1 Detection Patterns Breakdown (2,480 Total)
 
-| Parent Group | Categories | Patterns | Avg per Rule |
-|--------------|------------|----------|--------------|
-| UI | 15 | 178 | 1.34 |
-| Accessibility | 8 | 96 | 1.50 |
-| SEO | 5 | 52 | 1.73 |
-| Security | 10 | 162 | 1.95 |
-| API | 6 | 78 | 1.70 |
-| Database | 6 | 84 | 1.95 |
-| Performance | 6 | 88 | 1.91 |
-| Mobile | 5 | 64 | 1.68 |
-| DevOps | 6 | 82 | 1.78 |
-| Testing | 4 | 44 | 1.83 |
-| State | 4 | 48 | 1.78 |
-| Error | 3 | 34 | 2.00 |
-| E-Commerce | 4 | 56 | 1.75 |
-| **Desktop** | **14** | **181** | **0.63** |
-| **TOTAL** | **92** | **1,247** | **1.36** |
+The Rule Engine leverages **2,480 detection patterns across 10 pattern families** to identify engineering nuances across 62 frameworks.
 
-**Pattern Types:**
-- **Regex Patterns**: 487 (39.1%) - Pattern matching via regular expressions
-- **Keyword Patterns**: 398 (31.9%) - Simple keyword/phrase detection
-- **Semantic Patterns**: 212 (17.0%) - Context-aware semantic analysis
-- **Structural Patterns**: 150 (12.0%) - AST/code structure analysis
+### 7.1 Super Domain Overview
 
-> **Architecture Note:** Desktop rules have lower pattern density (0.63 patterns/rule) compared to other groups (~1.7-2.0). This is intentional — Desktop rules are primarily configuration/structural checks rather than pattern-detection heavy.
+| Super Domain | Rules | Auto-Fix |
+|--------------|-------|----------|
+| Core Architecture | 320 | 170 |
+| Security & Privacy | 310 | 160 |
+| Platform & Desktop | 360 | 310 |
+| Performance & Scalability | 210 | 120 |
+| AI & Intelligence | 180 | 70 |
+| Governance & Compliance | 180 | 60 |
+| **TOTAL** | **1560** | **890** |
+
+## 7.X SCALE GOVERNANCE CLAUSE
+
+Due to rule scale exceeding 1,500:
+
+- Rule execution must support chunked parallel evaluation
+- Rule graph must remain acyclic
+- Each rule must declare computational cost tier (Low/Medium/High)
+- Batch evaluation must enforce time slicing
+- Desktop rule execution prioritized before generic rules
 
 ### 7.1 Rule Statistics
 
@@ -1127,10 +1674,12 @@ const DOCSENSE_CANONICAL_STATS = {
 
 | Metric | Value |
 |--------|-------|
-| **Total Rules** | 914 |
-| **Categories** | 92 |
-| **Parent Groups** | 14 |
-| **Auto-Fix Rules** | 507 |
+| **Total Rules** | 1560 |
+| **Categories** | 43 |
+| **Super-Domains** | 6 |
+| **Auto-Fix Rules** | 890 |
+| **Detection Patterns** | 2480 |
+| **Supported Frameworks** | 62 |
 | **Detection Patterns** | 1247 |
 | **Critical Rules (P1)** | 165 |
 | **High Priority Rules (P2)** | 269 |
@@ -4937,13 +5486,13 @@ App (page.tsx)
 │       ├── ActivityItem (Yesterday)
 │       └── ViewHistoryButton
 ├── ContextualTabs (primary views)
-│   ├── OverviewTab: Top-level health dashboard
-│   ├── DocumentsTab: Document ingestion and management center
-│   ├── ModelTab: Entity/State-machine visualization engine
-│   ├── TasksTab: Build plan and implementation roadmap
-│   ├── StandardsTab: Rule compliance and violation dashboard
-│   ├── TraceabilityTab: RTM visualization and gap analysis
-│   └── EngineDeepDiveTab: Multi-view reasoning and mission logs
+│   ├── **1. Overview**: Central cockpit for project health and meta-metrics.
+│   ├── **2. Documents**: Document ingestion, management, and source tracking.
+│   ├── **3. Model & Detection**: Entity relationship mapping and framework identification.
+│   ├── **4. Build Plan**: Phased task breakdown and implementation roadmap.
+│   ├── **5. Standards & Analysis**: Comprehensive rule compliance and evaluation center.
+│   ├── **6. Traceability & Impact**: RTM visualization and change impact analysis.
+│   └── **7. Engine Deep Dive**: Low-level reasoning chains and mission logs.
 ├── StatusBar
 │   ├── ProjectName
 │   ├── AIStatus
