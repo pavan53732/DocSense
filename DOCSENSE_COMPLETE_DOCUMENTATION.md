@@ -30,6 +30,8 @@
 13. [Smart Features](#13-smart-features)
 14. [User Flows](#14-user-flows)
 15. [Component Architecture](#15-component-architecture)
+    - [15.1 Component Hierarchy](#151-component-hierarchy)
+    - [15.2 Header & Navigation](#152-header--navigation)
 16. [Configuration & Settings](#16-configuration--settings)
 17. [Error Handling](#17-error-handling)
 18. [Build & Distribution](#18-build--distribution)
@@ -4693,6 +4695,100 @@ App (page.tsx)
 │   └── StatusMessage
 └── ChatBot (Floating)
 ```
+
+### 15.2 Header & Navigation
+
+## AppHeader (`src/components/AppHeader.tsx`)
+
+The header simulates a desktop application title bar with:
+
+### Logo & Branding
+- **DocSense** logo with gradient text
+- "AI Powered" badge with sparkle icon
+- 7×7 gradient icon
+
+### Menu Bar
+Six dropdown menus with full keyboard shortcuts:
+
+| Menu | Items |
+|------|-------|
+| **File** | New Project (Ctrl+N), Open File (Ctrl+O), Save (Ctrl+S), Save As, Import Document, Export Report (Ctrl+E) |
+| **Edit** | Undo (Ctrl+Z), Redo (Ctrl+Shift+Z), Find (Ctrl+K), Preferences |
+| **View** | Toggle Dark Mode, Zoom In/Out, Full Screen (F11) |
+| **Analysis** | Run Full Analysis (Ctrl+Shift+A), Detect Contradictions, Validate API Contracts, Security Scan |
+| **Export** | Export as JSON, Export as Markdown, Export as HTML |
+| **Help** | Documentation, Keyboard Shortcuts, About DocSense |
+
+### Window Controls
+Simulated minimize, maximize, and close buttons (desktop-style).
+
+### Export Function
+The `downloadReport()` function generates a downloadable file in JSON, Markdown, or HTML format.
+
+---
+
+## AppToolbar (`src/components/AppToolbar.tsx`)
+
+Secondary toolbar below the header with:
+
+| Button | Action |
+|--------|--------|
+| 📂 Open | Opens file picker for .md, .txt, .json files |
+| 💾 Save | Downloads project state as `docsense-project.json` |
+| ⬇️ Import | Opens file picker for importing documents |
+| ⬆️ Export | Downloads export as `docsense-export.json` |
+| ⚡ AI Engine | Opens AI Settings Modal |
+| 🔍 Global Search | Command palette (Ctrl+K) with fuzzy search across all app sections |
+| 🌙/☀️ Theme Toggle | Switches between dark and light mode |
+
+### Rule Counter
+Displays "815 rules" with a green pulse dot indicating all rules are active.
+
+---
+
+## AppTabs (`src/components/AppTabs.tsx`)
+
+Seven main navigation tabs with animated underline indicator:
+
+| Tab ID | Label | Icon | Badge |
+|--------|-------|------|-------|
+| `overview` | Overview | LayoutDashboard | — |
+| `docs` | Documents | FileText | 4 |
+| `model` | Model & Detection | Cpu | 36 |
+| `tasks` | Build Plan | CheckSquare | 8 |
+| `standards` | Standards & Analysis | Shield | 46 |
+| `traceability` | Traceability & Impact | GitBranch | 5 |
+| `engines` | Engine Deep Dive | Settings | 9 |
+
+The active tab has a gradient underline using `framer-motion` `layoutId` for smooth transitions.
+
+---
+
+## AppStatusBar (`src/components/AppStatusBar.tsx`)
+
+Footer bar displaying:
+
+| Section | Content |
+|---------|---------|
+| Left | Project name (`my-specs.dsproj`), AI model (GPT-4), Connection status |
+| Right | File count, Rule count (815 rules, 15 categories), Contradiction count |
+
+AI status indicators:
+- 🔴 **Not Configured** — red dot
+- 🟡 **Testing...** — yellow pulsing dot
+- 🟢 **Connected** — green dot
+
+---
+
+## GlobalSearch (`src/components/GlobalSearch.tsx`)
+
+Command palette search activated by `Ctrl+K` or clicking the search bar. Provides fuzzy search across:
+- Tab navigation
+- Entities and models
+- Violations and rules
+- User flows
+- Framework names
+
 
 ---
 
