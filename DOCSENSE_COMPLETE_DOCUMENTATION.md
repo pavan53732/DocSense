@@ -32,6 +32,7 @@
 15. [Component Architecture](#15-component-architecture)
     - [15.1 Component Hierarchy](#151-component-hierarchy)
     - [15.2 Header & Navigation](#152-header--navigation)
+    - [15.3 Overview Tab](#153-overview-tab)
 16. [Configuration & Settings](#16-configuration--settings)
 17. [Error Handling](#17-error-handling)
 18. [Build & Distribution](#18-build--distribution)
@@ -4788,6 +4789,73 @@ Command palette search activated by `Ctrl+K` or clicking the search bar. Provide
 - Violations and rules
 - User flows
 - Framework names
+
+
+### 15.3 Overview Tab
+
+**Component:** `src/components/OverviewTab.tsx`  
+**Tab ID:** `overview`
+
+The Overview tab serves as the main dashboard, providing a bird's-eye view of the entire analysis.
+
+## AI Analysis Banner
+
+When AI analysis has been run, a prominent banner appears showing:
+- Analysis timestamp
+- Files analyzed
+- Count of entities, violations, contradictions, and suggestions
+- "LIVE" badge indicator
+
+## Hero Statistics (6 cards)
+
+| Stat | Description | Icon |
+|------|-------------|------|
+| Total Rules | Sum of all rules across 15+ categories | Shield |
+| Pass Rate | Percentage of rules without violations | CheckCircle2 |
+| Contradictions | Count of detected contradictions | ArrowLeftRight |
+| Frameworks | Count of detected frameworks/technologies | Cpu |
+| Tasks | Total build plan tasks | Target |
+| Completeness | Average entity completeness score | BarChart3 |
+
+Each card shows a large value, subtitle, and animated entrance.
+
+## Charts (6 panels in 3-column grid)
+
+### 1. Violations by Severity (Donut Chart)
+- **Critical** — Red `hsl(0, 65%, 48%)`
+- **High** — Orange `hsl(38, 92%, 55%)`
+- **Medium** — Cyan `hsl(187, 85%, 48%)`
+- **Low** — Gray `hsl(215, 15%, 50%)`
+
+### 2. Task Progress (Donut Chart)
+- Completed (green), In Progress (cyan), Pending (gray)
+
+### 3. Violations by Category (Horizontal Bar Chart)
+- Color-coded bars for Security, Accessibility, UI/UX, API, Performance, etc.
+
+### 4. Contradiction Types (Vertical Bar Chart)
+- Semantic, Numerical, Temporal, Permission, Implicit
+
+### 5. Detected Frameworks (Progress Bars)
+- Top 6 frameworks with confidence percentage bars
+- Framework icon + name + animated fill
+
+### 6. Rule Categories Health (Progress Bars)
+- Top 7 categories with active/total counts
+- Category icon + name + progress bar
+
+## Quick Insights (4 cards)
+
+| Insight | Description |
+|---------|-------------|
+| 🔴 Critical Issues | Count of critical violations + contradictions |
+| 🔧 Auto-fixable | Count of auto-fixable violations with action prompt |
+| ⚠️ Frameworks | Framework detection summary |
+| 📊 Completeness | Average completeness with below-threshold count |
+
+## Data Source
+
+Uses `AnalysisContext` — shows AI results when available, falls back to mock data when no analysis has been run.
 
 
 ---
