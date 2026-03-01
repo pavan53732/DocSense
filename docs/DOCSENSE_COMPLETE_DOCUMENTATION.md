@@ -11666,6 +11666,11 @@ class RealtimeDetector {
 | P3 | Entity Resolution | Medium | Medium |
 | P3 | AI-Powered Rule Generation | High | High |
 
+#### 34.6 UI/UX Roadmap
+* **Glassmorphism Theme Optimization**: Enhancing transparency and blur effects for the Electron shell.
+* **Micro-interaction Pass**: Adding spring-based animations to all tab transitions.
+* **SVG DAG 2.0**: Migrating visualization to D3.js for handling 1000+ nodes.
+
 ---
 
 ## 35. REQUIREMENT TRACEABILITY MATRIX
@@ -11800,7 +11805,22 @@ interface CoverageDetail {
   coveragePercentage: number;
   lastUpdated: Date;
 }
+
+### 35.5 RTM Visualization Contract
+
+The Traceability Matrix is rendered as a multi-dimensional interactive grid.
+
+```typescript
+interface TraceabilityUIConfig {
+  xAxis: 'requirements' | 'rules' | 'entities';
+  yAxis: 'components' | 'apis' | 'tasks';
+  cellContent: 'status' | 'conflict' | 'impact';
+  highlightMode: 'critical_path' | 'coverage_gap';
+}
 ```
+
+* **Interaction**: Hovering over a cell reveals the `ExplanationBridge` connecting Requirement ID to Code Item.
+* **Gap Detection**: Empty rows/columns are highlighted in Purple to indicate "Orphaned Requirements" or "Undocumented Features".
 
 ### 35.3 Matrix Components
 
@@ -11918,11 +11938,11 @@ const passwordResetTrace: TraceableRequirement = {
     status: 'fully-covered',
     percentage: 95,
     details: {
-      entity: { status: 'covered', coveragePercentage: 100 },
-      api: { status: 'covered', coveragePercentage: 100 },
-      flow: { status: 'covered', coveragePercentage: 100 },
-      component: { status: 'covered', coveragePercentage: 100 },
-      test: { status: 'partial', coveragePercentage: 80 }
+      entity: { status: 'covered', coveragePercentage: 100, linkedArtifacts: [], lastUpdated: new Date() },
+      api: { status: 'covered', coveragePercentage: 100, linkedArtifacts: [], lastUpdated: new Date() },
+      flow: { status: 'covered', coveragePercentage: 100, linkedArtifacts: [], lastUpdated: new Date() },
+      component: { status: 'covered', coveragePercentage: 100, linkedArtifacts: [], lastUpdated: new Date() },
+      test: { status: 'partial', coveragePercentage: 80, linkedArtifacts: [], lastUpdated: new Date() }
     },
     missing: {
       entities: [],
@@ -12133,7 +12153,7 @@ function detectGaps(matrix: RequirementTraceabilityMatrix): TraceabilityGap[] {
 │  ├── REQ-AUTH-006: OAuth login - Partial (30%)                              │
 │  │   Missing: Flow, Tests                                                   │
 │  │   Action: Add OAuth flow and integration tests                           │
-│  │                                                                          │
+  │                                                                          │
 │  ├── REQ-AUTH-004: Password change - No tests                               │
 │  │   Missing: Unit tests, Integration tests                                 │
 │  │   Action: Add test coverage for password change                          │
@@ -12529,6 +12549,22 @@ function calculateImpactScore(radius: BlastRadius): ImpactScore {
   };
 }
 ```
+
+### 36.3 Blast Radius UI Strategy
+
+Impact analysis is visualized using a "Force-Directed Heatmap" model.
+
+```typescript
+interface ImpactHeatmapNode {
+  id: string;
+  impactScore: number;     // 0.0 - 1.0 (Opacity)
+  blastRadius: number;     // Number of downstream components affected
+  changeType: 'breaking' | 'additive' | 'refactor';
+}
+```
+
+* **Thermal Mapping**: Nodes affected by a change glow brighter based on their `impactScore`.
+* **Ripple Effect**: An animated ring emanates from the modified node to its direct dependencies.
 
 ### 36.3 Conflict Detection
 
@@ -13485,13 +13521,6 @@ function detectConflict(fix1: DesktopFix, fix2: DesktopFix): FixConflict | null 
 
 ### 39.8 Desktop Fix Statistics Summary
 
-| Category | Total Rules | Auto-Fixable | Safe | Moderate | Risky |
-|----------|-------------|--------------|------|----------|-------|
-| IPC Security | 25 | 19 | 14 | 4 | 1 |
-| Window Management | 25 | 21 | 17 | 3 | 1 |
-| File System Safety | 25 | 20 | 15 | 4 | 1 |
-| Auto-Update Safety | 20 | 17 | 14 | 2 | 1 |
-| Crash Recovery | 20 | 16 | 12 | 3 | 1 |
 | Performance | 25 | 17 | 14 | 2 | 1 |
 | Security Hardening | 20 | 20 | 10 | 7 | 3 |
 | Installer | 15 | 15 | 13 | 1 | 1 |
