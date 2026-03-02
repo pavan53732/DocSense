@@ -2,7 +2,7 @@
 
 > **A Comprehensive Documentation for AI Agents & Developers**
 > 
-**Document Version: 8.0**
+**Document Version: 9.0**
 > 
 > This document provides an exhaustive description of **DocSense** - an AI-powered **Electron Desktop Application** for documentation analysis, covering every aspect of the UI/UX, the complete rule engine, AI analysis capabilities, native desktop features, data flows, and all functional components.
 
@@ -1294,29 +1294,29 @@ The DocSense Rule Engine is the core intelligence layer of the application. It c
 ### 7.0 Canonical Statistics Block (Single Source of Truth)
 
 ```typescript
-// CANONICAL RULE ENGINE STATISTICS - Version 8.0
-// FULL STRUCTURAL MIGRATION
+// CANONICAL RULE ENGINE STATISTICS - Version 9.0
+// WINDOWS NATIVE ENHANCEMENT EXPANSION
 // Single Source of Truth - DO NOT MODIFY OUTSIDE THIS BLOCK
 
 const DOCSENSE_CANONICAL_STATS = {
-  documentVersion: '8.0',
-  lastUpdated: '2026-03-01',
+  documentVersion: '9.0',
+  lastUpdated: '2026-03-02',
 
   // ============================
   // CORE SCALE METRICS
   // ============================
 
-  totalRules: 1560,
-  autoFixRules: 890,
-  manualReviewRules: 670,
-  autoFixPercentage: 57.0,
+  totalRules: 1644,
+  autoFixRules: 976,
+  manualReviewRules: 668,
+  autoFixPercentage: 59.4,
 
-  totalCategories: 43,     // 25 primary + 18 extended
+  totalCategories: 52,     // 25 primary + 27 extended (9 new Windows categories)
   superDomains: 6,
 
-  detectionPatterns: 2480,
+  detectionPatterns: 3060,
 
-  frameworksSupported: 118,
+  frameworksSupported: 134,
   aiModelsBenchmarked: 8,
 
   // ============================
@@ -1324,10 +1324,10 @@ const DOCSENSE_CANONICAL_STATS = {
   // ============================
 
   severity: {
-    critical: 280,
-    high: 420,
-    medium: 520,
-    low: 340
+    critical: 295,
+    high: 445,
+    medium: 548,
+    low: 356
   },
 
   // ============================
@@ -1344,8 +1344,8 @@ const DOCSENSE_CANONICAL_STATS = {
       autoFix: 160
     },
     platformAndDesktop: {
-      rules: 360,
-      autoFix: 310
+      rules: 444,
+      autoFix: 396
     },
     performanceAndScalability: {
       rules: 210,
@@ -1365,9 +1365,22 @@ const DOCSENSE_CANONICAL_STATS = {
   // DESKTOP INTENSITY
   // ============================
 
-  desktopRules: 360,
-  desktopAutoFix: 310,
-  desktopAutoFixRate: 86.1,
+  desktopRules: 444,
+  desktopAutoFix: 396,
+  desktopAutoFixRate: 89.2,
+
+  // ============================
+  // WINDOWS NATIVE ENHANCEMENTS (v9.0)
+  // ============================
+
+  windowsNativeEnhancements: {
+    newRuleCategories: 9,
+    newRulesAdded: 86,
+    newDetectionPatterns: 580,
+    newFrameworks: 15,
+    windowsDuplicateDetection: 10,
+    windowsAutoFixCapabilities: 4
+  },
 
   // ============================
   // ENGINE CAPABILITIES
@@ -1459,6 +1472,9 @@ The Rule Engine leverages **(Ref: Section 7.0) detection patterns across 10 patt
 | **SECURITY_SCAN** | Security vulnerability detection | 340+ | XSS, SQL injection, secrets |
 | **PERFORMANCE_PROFILER** | Performance pattern detection | 210+ | Memory leaks, bundle size |
 | **ARCHITECTURE_COP** | Architecture compliance | 200+ | Layer separation, SOLID principles |
+| **WINDOWS_NATIVE_API** | Windows API call patterns | 280+ | Registry, COM, Win32, PowerShell |
+| **WINDOWS_ERROR_CODE** | Windows error handling | 180+ | HRESULT, Win32 errors, NTSTATUS |
+| **WINDOWS_EVENT_LOG** | Event log patterns | 120+ | ETW, Event Viewer, WPP tracing |
 
 ### 7.0.3 Pattern Execution Strategies
 
@@ -2830,6 +2846,20 @@ Each framework must declare: ID, Domain, Pattern Keys, License, Flags, Super Dom
 | `F-116` | WinUI | Windows Native UI |
 | `F-117` | C++/WinRT | C++ Windows |
 | `F-118` | Rust Windows | Rust Windows API |
+| `F-119` | Windows App SDK | Windows Native Apps |
+| `F-120` | MSIX Packaging | Windows Packaging |
+| `F-121` | Windows Community Toolkit | Windows UI Helpers |
+| `F-122` | Windows Driver Kit | Windows Driver Dev |
+| `F-123` | Windows Terminal | Console/Terminal Apps |
+| `F-124` | Windows IoT Core | IoT Windows |
+| `F-125` | Hyper-V Integration | Virtualization |
+| `F-126` | DirectX 12 | Graphics/Gaming |
+| `F-127` | WinUI 3 | Windows UI 3.0 |
+| `F-128` | Project Reunion | Windows App SDK Legacy |
+| `F-129` | Windows Services | Windows Services Dev |
+| `F-130` | WPF | Windows Presentation |
+| `F-131` | Azure IoT Edge | Edge Computing |
+| `F-132` | WSL2 Interop | Linux Interop |
 
 > **FRAMEWORK_COUNT_ENFORCEMENT:**  
 > Total Registered Frameworks: (Ref: Section 7.0)  
@@ -10960,6 +10990,55 @@ interface DuplicateAutoFix {
 }
 ```
 
+#### 26.7.4 Windows-Specific Duplicate Detection ⭐ NEW
+
+| Detection Type | Description | Priority |
+|----------------|-------------|----------|
+| **Windows API Duplication** | Detect repeated Win32/PowerShell API calls | high |
+| **Registry Key Conflicts** | Find duplicate registry key definitions | critical |
+| **Manifest Collision** | Detect manifest file conflicts | high |
+| **Resource File Duplication** | Identify duplicate .rc, .res, .ico files | medium |
+| **COM Interface Conflicts** | Detect duplicate COM interface GUIDs | critical |
+| **Service Definition Conflicts** | Find duplicate Windows service entries | high |
+| **Driver Binding Duplication** | Detect duplicate driver device bindings | medium |
+| **Package Dependency Conflicts** | Find MSIX/APPX dependency overlaps | high |
+| **Win32 API Porting Duplicates** | Detect same Win32 API wrapped multiple times | medium |
+| **PowerShell Script Duplicates** | Find identical/near-identical PS scripts | medium |
+
+#### 26.7.5 Windows Duplicate Auto-Fix Capabilities ⭐ NEW
+
+```typescript
+interface WindowsDuplicateAutoFix {
+  // Registry deduplication
+  registryFixes: {
+    mergeDuplicateKeys: boolean;
+    consolidateValues: boolean;
+    removeRedundantKeys: boolean;
+  };
+  
+  // Manifest consolidation
+  manifestFixes: {
+    mergeCapabilities: boolean;
+    resolveVersionConflicts: boolean;
+    deduplicateExtensions: boolean;
+  };
+  
+  // API call optimization
+  apiDeduplication: {
+    createSharedWrapper: boolean;
+    inlineSimpleCalls: boolean;
+    extractCommonHelpers: boolean;
+  };
+  
+  // Service consolidation
+  serviceFixes: {
+    mergeDependentServices: boolean;
+    removeDuplicates: boolean;
+    consolidateRecoveryActions: boolean;
+  };
+}
+```
+
 ---
 
 ## 27. COMPATIBILITY MATRIX
@@ -17272,6 +17351,128 @@ interface WindowsAutoFixStrategies {
   };
 }
 ```
+
+#### 37.1.9 Windows PowerShell Integration Rules ⭐ NEW
+| Rule ID | Description | Impact | Auto-Fix |
+|---------|-------------|--------|----------|
+| `rule-win-ps-execution-policy` | Set appropriate PowerShell execution policy | high | ✅ |
+| `rule-win-ps-secure-string` | Use SecureString for sensitive data | critical | ✅ |
+| `rule-win-ps-module-path` | Validate module load paths | medium | ✅ |
+| `rule-win-ps-credential-handling` | Secure credential handling in scripts | critical | ✅ |
+| `rule-win-ps-script-signing` | Sign all production PowerShell scripts | high | ✅ |
+| `rule-win-ps-error-preference` | Set proper error preference handling | medium | ✅ |
+| `rule-win-ps-transcript-logging` | Enable script transcription for audit | high | ✅ |
+| `rule-win-ps-version-compat` | Support PowerShell 5.1 and 7+ | medium | ✅ |
+| `rule-win-ps-runspace-isolation` | Isolate runspaces for security | high | ✅ |
+| `rule-win-ps-no-hardcoded-creds` | No hardcoded credentials in scripts | critical | ✅ |
+| `rule-win-ps-just-enough-admin` | Implement JEA (Just Enough Admin) | high | ✅ |
+| `rule-win-ps-psreadline-security` | Disable PSReadline in production | medium | ✅ |
+
+#### 37.1.10 Windows Driver/Kernel Mode Rules ⭐ NEW
+| Rule ID | Description | Impact | Auto-Fix |
+|---------|-------------|--------|----------|
+| `rule-win-driver-signed` | Require signed drivers | critical | ✅ |
+| `rule-win-driver/kmdf-version` | Use latest KMDF/UMDF version | medium | ✅ |
+| `rule-win-driver-pool-tagging` | Implement pool tagging for debugging | high | ✅ |
+| `rule-win-driver-wdm-compliance` | Follow WDM driver model standards | high | ✅ |
+| `rule-win-driver-minimal-stack` | Maintain minimal kernel stack | medium | ✅ |
+| `rule-win-driver-secure-string-unicode` | Use secure Unicode string handling | critical | ✅ |
+| `rule-win-driver-power-state` | Handle device power states properly | high | ✅ |
+| `rule-win-driver-pnp-order` | Follow PnP installation order | medium | ✅ |
+| `rule-win-driver-verifier` | Run Driver Verifier in development | high | ✅ |
+| `rule-win-driver-memory-manager` | Proper memory manager usage | critical | ✅ |
+| `rule-win-driver-interrupt-handling` | Safe interrupt handling | critical | ✅ |
+| `rule-win-driver-code-tour` | Include Windows Code Tour markers | low | ✅ |
+
+#### 37.1.11 Windows App SDK/MSIX Packaging Rules ⭐ NEW
+| Rule ID | Description | Impact | Auto-Fix |
+|---------|-------------|--------|----------|
+| `rule-win-msix-package-identity` | Define proper package identity | high | ✅ |
+| `rule-win-msix-capabilities` | Declare required capabilities | high | ✅ |
+| `rule-win-msix-versioning` | Use semantic versioning for packages | medium | ✅ |
+| `rule-win-msix-target-platform` | Specify target platform versions | high | ✅ |
+| `rule-win-msix-auto-update` | Enable automatic updates via Store | high | ✅ |
+| `rule-win-msix-package-logo` | Provide required logo assets | medium | ✅ |
+| `rule-win-msix-splash-screen` | Configure splash screen properly | medium | ✅ |
+| `rule-win-msix-tile-configuration` | Configure live tile settings | medium | ✅ |
+| `rule-win-msix-appxmanifest-valid` | Validate AppxManifest.xml | critical | ✅ |
+| `rule-win-msix-certificate` | Use trusted certificate for signing | critical | ✅ |
+| `rule-win-msix-bundle-splitting` | Implement proper bundle splitting | medium | ✅ |
+| `rule-win-msix-dependencies` | Declare dependencies correctly | high | ✅ |
+| `rule-win-msix-resource-pkg` | Use resource packages for localization | medium | ✅ |
+| `rule-win-msix-sandbox` | Run in AppContainer when possible | high | ✅ |
+| `rule-win-msix-packaging-tool` | Use MSIX Packaging Tool | low | ✅ |
+
+#### 37.1.12 Windows Services & Task Scheduler Rules ⭐ NEW
+| Rule ID | Description | Impact | Auto-Fix |
+|---------|-------------|--------|----------|
+| `rule-win-service-least-privilege` | Run services with least privilege | critical | ✅ |
+| `rule-win-service-delayed-start` | Use delayed start for non-critical | medium | ✅ |
+| `rule-win-service-recovery` | Configure service recovery options | high | ✅ |
+| `rule-win-service-running-state` | Handle running/paused states | high | ✅ |
+| `rule-win-service-dependencies` | Define service dependencies properly | high | ✅ |
+| `rule-win-scheduler-timeout` | Set timeout for scheduled tasks | medium | ✅ |
+| `rule-win-scheduler-principal` | Use least-privileged scheduler account | critical | ✅ |
+| `rule-win-scheduler-missed` | Handle missed task executions | medium | ✅ |
+| `rule-win-scheduler-retry` | Configure retry policy for failures | high | ✅ |
+| `rule-win-service-scm-communication` | Handle SCM communication failures | high | ✅ |
+
+#### 37.1.13 Windows Graphics/DirectX Rules ⭐ NEW
+| Rule ID | Description | Impact | Auto-Fix |
+|---------|-------------|--------|----------|
+| `rule-win-dx12-feature-level` | Check minimum DirectX 12 feature level | high | ✅ |
+| `rule-win-dxgi-factory` | Use modern DXGI factory patterns | medium | ✅ |
+| `rule-win-gpu-memory` | Monitor GPU memory availability | high | ✅ |
+| `rule-win-vulkan-support` | Provide Vulkan fallback when available | medium | ✅ |
+| `rule-win-gdi-smoothing` | Enable GDI text smoothing | low | ✅ |
+| `rule-win-render-thread` | Use dedicated render thread | medium | ✅ |
+| `rule-win-gpu-tiling` | Handle GPU tiling resources | medium | ✅ |
+| `rule-win-monitor-refresh` | Respect monitor refresh rate | medium | ✅ |
+
+#### 37.1.14 Windows Virtualization/Hyper-V Rules ⭐ NEW
+| Rule ID | Description | Impact | Auto-Fix |
+|---------|-------------|--------|----------|
+| `rule-win-hyperv-enlightenments` | Enable Hyper-V enlightenment APIs | medium | ✅ |
+| `rule-win-virtual-nic` | Use synthetic virtual network adapters | medium | ✅ |
+| `rule-win-virtual-disk` | Attach VHD/VHDX properly | high | ✅ |
+| `rule-win-vm-memory` | Handle dynamic memory in VMs | medium | ✅ |
+| `rule-win-checkpoint` | Support checkpoint/undo functionality | medium | ✅ |
+| `rule-win-container-support` | Support Windows container isolation | medium | ✅ |
+| `rule-win-wsl2-interop` | Enable WSL2 interop when available | medium | ✅ |
+| `rule-win-virtual-gpu` | Support vGPU allocation | medium | ✅ |
+
+#### 37.1.15 Windows IoT Core Rules ⭐ NEW
+| Rule ID | Description | Impact | Auto-Fix |
+|---------|-------------|--------|----------|
+| `rule-win-iot-headless-mode` | Support headless IoT operation | high | ✅ |
+| `rule-win-iot-azure-iot-edge` | Support Azure IoT Edge | medium | ✅ |
+| `rule-win-iot-device-manifest` | Use IoT device manifests | medium | ✅ |
+| `rule-win-iotgpio` | Handle GPIO pin mapping | high | ✅ |
+| `rule-win-iot-uart-serial` | Configure UART serial properly | medium | ✅ |
+| `rule-win-iot-real-time` | Support real-time IoT scenarios | high | ✅ |
+
+#### 37.1.16 Windows Terminal/Console Rules ⭐ NEW
+| Rule ID | Description | Impact | Auto-Fix |
+|---------|-------------|--------|----------|
+| `rule-win-con-ansi-support` | Support ANSI/VT100 escape sequences | medium | ✅ |
+| `rule-win-con-unicode-font` | Use Unicode-aware console fonts | medium | ✅ |
+| `rule-win-con-vt-input` | Handle VT input sequences | medium | ✅ |
+| `rule-win-con-pseudo-console` | Support Pseudo Console (ConPTY) | high | ✅ |
+| `rule-win-con-buffer-size` | Configure proper buffer sizes | low | ✅ |
+| `rule-win-con-color-depth` | Support 24-bit color in terminal | medium | ✅ |
+| `rule-win-con-emoji-rendering` | Handle emoji rendering properly | low | ✅ |
+| `rule-win-con-term-profile` | Load terminal profile settings | low | ✅ |
+
+#### 37.1.17 Windows Backup/Restore API Rules ⭐ NEW
+| Rule ID | Description | Impact | Auto-Fix |
+|---------|-------------|--------|----------|
+| `rule-win-vss-writer` | Implement VSS writer for backups | high | ✅ |
+| `rule-win-backup-catalog` | Maintain backup catalog | high | ✅ |
+| `rule-win-shadow-copy` | Use shadow copies for open files | high | ✅ |
+| `rule-win-restore-verify` | Verify data after restore | critical | ✅ |
+| `rule-win-backup-incremental` | Support incremental backups | medium | ✅ |
+| `rule-win-restore-point` | Create system restore points | high | ✅ |
+| `rule-win-backup-encryption` | Encrypt backup data at rest | critical | ✅ |
 
 ### 37.2 Offline-First & Sync Rules (Rule counts are governed by Section 7.0) ⭐ NEW
 
