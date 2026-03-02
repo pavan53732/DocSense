@@ -18,15 +18,16 @@
 6. [Native Desktop Features](#6-native-desktop-features)
 7. [Complete Rule Engine](#7-complete-rule-engine)
     - [7.0 Canonical Statistics Block](#70-canonical-statistics-block-single-source-of-truth)
-    - [7.0.1 Detection Patterns Breakdown](#701-detection-patterns-breakdown-2480-total)
+    - [7.0.1 Detection Patterns Breakdown](#701-detection-patterns-breakdown-(Ref: Section 7.0)-total)
     - [7.1 Rule Statistics](#71-rule-statistics)
     - [7.2 Super-Domains](#72-super-domains-6-super-domains)
     - [7.3 Complete 43 Category Hierarchy (Canonical)](#73-complete-43-category-hierarchy-canonical)
     - [7.4 High-Performance Rule Evaluation Architecture](#74-high-performance-rule-evaluation-architecture)
     - [7.5 Expanded Rule Interface](#75-expanded-rule-interface)
     - [7.6 Canonical Framework Registry](#76-canonical-framework-registry-total-frameworks-ref-section-70)
-    - [7.7 Super-Domain Cross-Dependency Matrix](#7x-super-domain-cross-dependency-matrix)
+    - [7.7 Key Rules by Priority](#77-key-rules-by-priority)
     - [7.8 Deterministic Rule ID Namespace Specification](#78-deterministic-rule-id-namespace-specification)
+    - [7.9 Pattern Registry Governance Layer](#79-pattern-registry-governance-layer-v83-seal)
 8. [AI Analysis System](#8-ai-analysis-system)
 9. [Data Models & Types](#9-data-models--types)
 10. [API Endpoints](#10-api-endpoints)
@@ -139,14 +140,13 @@
     - [36.4 Impact Visualization](#364-impact-visualization)
     - [36.5 Recommendation Engine](#365-recommendation-engine)
 37. [Extended Desktop Rule Categories](#37-extended-desktop-rule-categories)
-    - [37.1 Offline-First & Sync Rules](#371-offline-first--sync-rules-25-rules)
-    - [37.2 Desktop Accessibility Rules](#372-desktop-accessibility-rules-20-rules)
-    - [37.3 Data Migration Rules](#373-data-migration-rules-25-rules)
-    - [37.4 Telemetry & Privacy Rules](#374-telemetry--privacy-rules-15-rules)
-38. [Updated Statistics Summary](#38-updated-statistics-summary)
-39. [Desktop Auto-Fix Strategy Layer](#39-desktop-auto-fix-strategy-layer)
+    - [37.1 Offline-First & Sync Rules (Rule counts governed by Section 7.0)](#371-offline-first--sync-rules-rule-counts-governed-by-section-70)
+    - [37.2 Desktop Accessibility Rules (Rule counts governed by Section 7.0)](#372-desktop-accessibility-rules-rule-counts-governed-by-section-70)
+    - [37.3 Data Migration Rules (Rule counts governed by Section 7.0)](#373-data-migration-rules-rule-counts-governed-by-section-70)
+    - [37.4 Telemetry & Privacy Rules (Rule counts governed by Section 7.0)](#374-telemetry--privacy-rules-rule-counts-governed-by-section-70)
+ 39. [Desktop Auto-Fix Strategy Layer](#39-desktop-auto-fix-strategy-layer)
     - [39.1 Overview](#391-overview)
-    - [39.2 Fix Type Matrix](#392-fix-type-matrix-for-desktop-rules-360-auto-fixable)
+    - [39.2 Fix Type Matrix](#392-fix-type-matrix-for-desktop-rules-auto-fixable-ref-section-70)
     - [39.3 Execution Order](#393-desktop-auto-fix-execution-order)
     - [39.4 Transaction Model](#394-transaction-model-for-desktop-fixes)
     - [39.5 Rollback Handling](#395-rollback-handling-for-desktop-fixes)
@@ -156,279 +156,13 @@
 
 ---
 
-## 32. CHANGELOG
-
-### Version 7.9 (Current)
-> **⚠️ HISTORICAL SNAPSHOT — NON-CANONICAL**
-> All numeric values below are legacy and superseded by Section 7.0.
-
-
-**Released: 2025-03-01**
-
-**Final Zero-Trust Validation Fixes:**
-
-1. **🔢 Detection Pattern Total Corrected to 2,480**
-   - Fixed pattern table values to sum exactly to 2,480 (canonical value)
-   - Updated per-super-domain pattern counts for consistency
-   - New breakdown: Core:560 + Security:520 + Platform:610 + Performance:420 + AI:320 + Governance:70 = 2,480
-
-2. **📊 Section 39.8 Risk Breakdown Reconciled**
-   - Fixed Safe/Moderate/Risky columns to sum exactly to 245
-   - New breakdown: 191 Safe + 39 Moderate + 15 Risky = 245
-   - Removed ambiguous "multiple risk classifications" statement
-   - Each auto-fixable rule now has exactly one risk classification
-
-3. **🔧 Canonical Block Key Collision Fixed**
-   - Renamed `parentGroups: 14` to `parentGroupCount: 14`
-   - Object `parentGroups` now contains group details without key collision
-   - Valid JavaScript structure
-
-4. **📝 Document Architecture Note Added**
-   - Desktop rules (Ref: Section 7.0) are automation-heavy by design
-   - Desktop auto-fix coverage: (Ref: Section 7.0) = 86% (high automation density)
-   - This is intentional for Electron desktop safety requirements
-
-**Verification Summary:**
-- Pattern sum: 560+520+610+420+320+70 = 2,480
-- Risk sum: 191+39+15 = 245
-- All statistics mathematically verified
-
----
-
-### Version 7.8
-> **⚠️ HISTORICAL SNAPSHOT — NON-CANONICAL**
-> All numeric values below are legacy and superseded by Section 7.0.
-
-
-**Released: 2025-03-01**
-
-**Mathematical Integrity Fixes:**
-
-1. **🔢 Auto-Fix Total Corrected**
-   - Fixed Auto-Fix total from 497 to **(Ref: Section 7.0)** (mathematically correct)
-   - Non-Desktop Auto-Fix: 530 (UI:58 + A11y:28 + SEO:12 + Security:35 + API:18 + DB:15 + Perf:22 + Mobile:16 + DevOps:20 + Test:8 + State:10 + Error:6 + E-Comm:14 + Governance:60 + AI:70 + Performance-Scale:120)
-   - Desktop Auto-Fix: 360
-   - Total: 530 + 360 = **(Ref: Section 7.0)**
-
-2. **📊 Section 39.8 Desktop Fix Statistics Corrected**
-   - Fixed row values to sum exactly to 245 (was showing rows summing to 253)
-   - Corrected Safe/Moderate/Risky column totals (fixed in v7.9)
-
-3. **📐 Canonical Statistics Block Added**
-   - Single source of truth for all document statistics
-   - Eliminates future drift between sections
-   - See Section 7.0 for canonical constants
-
-4. **🔧 Rule Table Formatting Fixed**
-   - All Auto-Fix columns now have explicit values (✅ or empty)
-   - No blank/undefined Auto-Fix indicators remain
-
-**Document Integrity:**
-- All numerical values now pass zero-trust validation
-- All statistics mathematically verifiable
-- Total Rules: 914 (⚠️ Historical Note) (⚠️ Historical Note)
-- Auto-Fix: (Ref: Section 7.0) (57%)
-- Categories: 92
-- Parent Groups: 14
-
----
-
-### Version 7.7
-> **⚠️ HISTORICAL SNAPSHOT — NON-CANONICAL**
-> All numeric values below are legacy and superseded by Section 7.0.
-
-
-**Released: 2025-03-01**
-
-**Structural Consistency Fixes:**
-
-1. **📊 Rule Statistics Normalization**
-   - Fixed Section 7.1 Rule Statistics: Total Rules (689→914 (⚠️ Historical Note)), Categories (85→92), Auto-Fix Rules (292→497)
-   - Fixed Section 7.3 Category Hierarchy header: CATEGORIES (85→92 Total)
-   - Fixed Desktop Category Group in hierarchy: expanded from 7 categories/60 rules to 14 categories/desktop counts (Ref: Section 7.0) rules
-   - Fixed priority rule counts: Critical (115→165), High (205→269), Medium (230→310), Low (139→170)
-   - Fixed detection patterns count: (850+→2480)
-
-2. **📝 Reference Updates**
-   - Updated ruleEngine.ts comment: 629→914 (⚠️ Historical Note) rule definitions
-   - Updated evaluation pipeline comment: 829→914 (⚠️ Historical Note) rules
-   - Fixed Section 24.1 Auto-Fix Capabilities: 262→497 rules
-   - Updated all "Apply 829 rules" references to 914 (⚠️ Historical Note)
-   - Updated "Validates against 689 rules" to 1,560 rules (Ref: Section 7.0) (⚠️ Historical)
-
-3. **🔧 Desktop Auto-Fix Strategy Layer (Section 39) - NEW**
-   - Added comprehensive Fix Type Matrix for Desktop Rules (Auto-fixable counts governed by Section 7.0)
-   - Added Desktop Auto-Fix Execution Order (8 phases)
-   - Added Transaction Model for Desktop Fixes
-   - Added Rollback Handling with RestorePoint system
-   - Added Dependency Conflict Resolution framework
-   - Added Risk Classification for Desktop Fixes (Safe/Moderate/Risky)
-   - Added Desktop Fix Statistics Summary by category
-
-**Document Integrity:**
-- All rule counts now consistent throughout document
-- All category counts synchronized
-- Auto-fix counts aligned across all sections
-- Parent group counts verified and consistent
-
----
-
-### Version 7.6
-
-**Released: 2025-03-01**
-
-**Major Feature Additions:**
-
-1. **📋 Requirement Traceability Matrix (Section 35) - NEW**
-   - Maps every requirement to API endpoints, data models, and test coverage
-   - Gap visualization highlighting missing implementations
-   - Coverage statistics per requirement
-   - Export to Excel, CSV, and Jira formats
-
-2. **💥 Change Impact Analysis (Section 36) - NEW**
-   - Blast radius visualization when specs are modified
-   - Conflict detection for contradictory changes
-   - Impact scoring for affected components
-   - Recommendation engine for change management
-
-3. **📁 Extended Desktop Rule Categories (Section 37) - NEW**
-   - **Offline-First & Sync Rules** (Rule counts are governed by Section 7.0) - Network resilience
-   - **Desktop Accessibility Rules** (Rule counts are governed by Section 7.0) - OS-level a11y
-   - **Data Migration Rules** (Rule counts are governed by Section 7.0) - Safe schema changes
-   - **Telemetry & Privacy Rules** (Rule counts are governed by Section 7.0) - GDPR/compliance
-   - 85 new rules, 70 auto-fixable
-
-**Updated Statistics:**
-- Total Rules: 829 → **914 (⚠️ Historical Note)** (+85 extended desktop rules)
-- Categories: 88 → **92** (+4 extended desktop categories)
-- Desktop Rules: 200 → **420**
-- Auto-Fix Rules: 427 → **(Ref: Section 7.0)** (+80)
-- New Sections: 35, 36, 37
-
----
-
-### Version 7.5
-
-**Released: 2025-03-01**
-
-**Major Documentation Expansion:**
-
-1. **📊 Engine Enhancement Roadmap (Section 34) - NEW**
-   - 17 comprehensive enhancement features documented
-   - 4 engine areas covered:
-     - AI Analysis Engine (6 enhancements)
-     - Rule & Auto-Fix Engine (4 enhancements)
-     - Contradiction & Duplicate Detector (3 enhancements)
-     - Framework Detection Engine (4 enhancements)
-   
-   **Key Enhancements Documented:**
-   - Multi-Model Ensemble Analysis
-   - Streaming Progressive Analysis
-   - Incremental/Differential Analysis
-   - Self-Healing Extractions
-   - Domain-Specific Extraction Templates
-   - Natural Language Query Engine
-   - Custom Rule Builder UI
-   - Compliance Framework Rules (OWASP, PCI-DSS, HIPAA, SOC2, GDPR)
-   - Rule Performance Analytics
-   - AI-Powered Rule Generation
-   - Semantic Similarity with Embeddings
-   - Cross-Document Contradiction Detection
-   - Entity Resolution & Identity Management
-   - Version-Specific Framework Detection
-   - Architecture Pattern Detection
-   - Cloud Provider Detection
-   - Real-Time Framework Detection
-
-**Updated Statistics:**
-- Enhancement Features: 17
-- Compliance Frameworks: 5
-- Architecture Patterns: 10
-
----
-
-### Version 7.4
-
-**Released: 2025-03-01**
-
-**Major Feature Enhancements:**
-   - Expanded from 60 to **200 Electron/Windows-specific rules**
-   - Added 10 comprehensive categories:
-     - 🖥️ **IPC Security** (Rule counts are governed by Section 7.0) - Inter-process communication security
-     - 🪟 **Window Management** (Rule counts are governed by Section 7.0) - BrowserWindow security and behavior
-     - 📁 **File System Safety** (Rule counts are governed by Section 7.0) - File operations security
-     - 🔄 **Auto-Update Safety** (Rule counts are governed by Section 7.0) - Secure update mechanisms
-     - 💥 **Crash Recovery & Stability** (Rule counts are governed by Section 7.0) - Resilience and recovery
-     - ⚙️ **Performance & Resource** (Rule counts are governed by Section 7.0) - Resource management
-     - 🔐 **Security Hardening** (Rule counts are governed by Section 7.0) - Advanced security measures
-     - 📦 **Installer & Distribution** (Rule counts are governed by Section 7.0) - Safe installation
-     - 📊 **Observability** (Rule counts are governed by Section 7.0) - Logging and monitoring
-     - 🧠 **State & Data Integrity** (Rule counts are governed by Section 7.0) - Data consistency
-   - **~auto-fixable rules (Ref: Section 7.0)** included (87.5% coverage)
-   - Covers all critical Electron security concerns
-
-2. **State Machine Extraction** - Section 8.3
-   - New subsystem to derive state machines from user flows
-   - Detects missing states: loading, error, retry, cancel, offline, crash-recovery
-   - Identifies unreachable states, dead ends, and cyclic paths
-   - Desktop-specific state detection for Electron apps
-
-3. **Field-Level Confidence System** - Section 9.2
-   - Granular trust metrics for each extracted field
-   - 5 confidence sources: explicit, extracted, inferred, calculated, assumed
-   - Confidence-weighted contradiction resolution
-   - Processing rules based on confidence thresholds
-
-4. **Multi-Signal Framework Detection** - Section 23.8
-   - 7 detection signals combined for higher accuracy
-   - Weighted scoring system (package.json 30%, config files 20%, etc.)
-   - Framework compatibility matrix with conflict detection
-   - Framework-specific rule injection
-
-**Updated Statistics:**
-- Total Rules: 629 → **829** (+200 Desktop rules)
-- Categories: 78 → **88** (+10 Desktop categories)
-- Parent Groups: 13 → **14** (Desktop added)
-- Auto-Fix Rules: 262 → **427** (+165 Desktop auto-fixes)
-
----
-
-### Version 7.3
-
-**Structural Consistency Fixes:**
-- Fixed rule count contradiction (95 vs 45 critical rules)
-- Updated all "200+ rules" references to 629
-- Added deep clone before model mutation
-- Defined RollbackManager interface
-- Added Trigger-to-Category mapping
-- Added SystemModel Schema Contract
-
----
-
-### Version 7.1
-
-**Structural Fixes:**
-- Added missing Section 31.16 "Mission Results Aggregation"
-- Expanded TOC for Section 31
-- Consolidated duplicate interface definitions
-
----
-
-### Version 7.0
-
-**Rebranding:**
-- Renamed app from "Guide Engine" to "DocSense"
-- Updated all references, file extensions (.dsproj)
-
----
-
 ## 33. Appendix A: Quick Reference
 
 ## 1. APPLICATION OVERVIEW
 
 ### 1.1 Application Overview
 
-DocSense is a professional-grade analysis suite that provides real-time, deep-dive evaluation of technical documentation. It validates against **(Ref: Section 7.0) multi-domain engineering and desktop safety rules**, identifying contradictions, security vulnerabilities, performance bottlenecks, and architectural deviations with 99.9% precision. It acts as an intelligent co-architect that:
+DocSense is a professional-grade analysis suite that provides real-time, deep-dive evaluation of technical documentation. It validates against **(Ref: Section 7.0) multi-domain engineering and desktop safety rules**, identifying contradictions, security vulnerabilities, performance bottlenecks, and architectural deviations with high precision. It acts as an intelligent co-architect that:
 
 - **Generates** prioritized smart suggestions with confidence scores
 - **Produces** phased build plans with task dependencies
@@ -456,12 +190,12 @@ DocSense is a professional-grade analysis suite that provides real-time, deep-di
 | **Native Desktop Experience** | Runs as standalone desktop app with native menus, dialogs, and system integration |
 | **Direct File System Access** | Open files directly from folders, save analyses anywhere |
 | **AI-Powered Extraction** | Uses OpenAI-compatible LLMs to extract structured models from unstructured docs |
-| **Rule Engine (Ref: Section 7.0)** | Comprehensive validation across canonical categories | Comprehensive validation across 43 categories in 6 super-domains |
+| **Rule Engine (Ref: Section 7.0)** | Comprehensive validation across canonical categories (Ref: Section 7.0) in 6 super-domains |
 | **Smart Suggestions** | Context-aware recommendations with confidence scores |
 | **Cross-Document Analysis** | Finds contradictions and duplicates across multiple files |
 | **Duplicate Detection** | Jaccard similarity analysis to identify repeated entities, flows, and components |
 | **Auto-Fix Capabilities** | Automatic corrections for (Ref: Section 7.0) common issues |
-| **Framework Detection** | Auto-detects 62 frameworks with confidence scoring and compatibility validation |
+| **Framework Detection** | Auto-detects canonical frameworks (Ref: Section 7.0) with confidence scoring and compatibility validation |
 | **Chunked Processing** | Handles documents of any size through parallel processing |
 | **Offline Project Storage** | Save and load projects locally without internet |
 | **Auto-Update** | Automatic application updates in background |
@@ -827,13 +561,19 @@ interface DashboardMetrics {
   totalRules: number; // Must be sourced from Section 7.0 canonical block
 
 // CANONICAL_BINDING:
-// totalRules must be dynamically sourced from Section 7.0.
-// Hardcoding canonical constants outside Section 7.0 is prohibited.
+// The following properties must be dynamically derived from Section 7.0:
+// - totalRules
+// - frameworkCount
+// - autoFixTotal
+// - detectionPatternTotal
+// No canonical constant may be hardcoded in application logic.
   passRate: number;
   violations: number;
   contradictions: number;
   duplicates: number;
   frameworkCount: number;
+  autoFixTotal: number;
+  detectionPatternTotal: number;
   taskCount: number; // Corrected: tracks roadmap items
   completenessScore: number;
 }
@@ -918,6 +658,7 @@ graph TD
     UISlice --> Selectors
     Selectors --> UI
     UI -- "Named Actions Only" --> RootStore
+```
 
 #### Derived Selector Enforcement Flow
 
@@ -939,11 +680,7 @@ React Components (Render Only)
 
 The Root Store manages cross-tab hydration. For example, selecting an entity in the **Model** tab automatically triggers a filter in the **Traceability** tab through shared state selectors.
 
-### 5.5 [DEPRECATED] UI Interaction Slice Hierarchy
-
-*(Refer to Section 5.4 for substantiated UI schema)*
-
-### 5.6 Dashboard Widget Contract
+### 5.5 Dashboard Widget Contract
 
 Dashboard widgets are abstracted into a formal rendering contract, independent of the underlying metric data.
 
@@ -1350,6 +1087,7 @@ interface DocumentState {
   activeAnalysisId: string | null;
   lastSavedAt?: number;
 }
+```
 
 **DOCUMENT_ATOMIC_IMPORT_RULE:**
 File ingestion must:
@@ -1358,7 +1096,6 @@ File ingestion must:
 3. Assign ID
 4. Commit to `documents.files` atomically
 Partial file state insertion is prohibited.
-```
 
 #### 5.18.2 TasksState Contract (Roadmap)
 
@@ -1384,8 +1121,7 @@ The UI architecture is formally governed by:
 
 Any deviation from these principles invalidates architectural compliance.
 
-Section 5 is considered governance-hardened as of Version 7.9.
-```
+Section 5 is considered governance-hardened under the Canonical Enforcement Policy (Ref: Section 7.0).
 
 ---
 
@@ -1553,35 +1289,9 @@ interface ProjectFile {
 
 ## 7. COMPLETE RULE ENGINE
 
-The DocSense Rule Engine is the core intelligence layer of the application. It consists of rules governed by the Canonical Statistics Block (Ref: Section 7.0). categorized into 6 super-domains, powered by **2,480 detection patterns**.
+The DocSense Rule Engine is the core intelligence layer of the application. It consists of rules governed by the Canonical Statistics Block (Ref: Section 7.0). categorized into 6 super-domains, powered by **(Ref: Section 7.0) detection patterns**.
 
 ### 7.0 Canonical Statistics Block (Single Source of Truth)
-
-> ⚠️ **DEPRECATION NOTICE**
->
-> **Legacy Structure Deprecated as of v8.0**
->
-> The **14 Parent Groups** category model has been **deprecated** and replaced by the **6 Super Domains** architecture.
->
-> | Legacy (v7.x) | Current (v8.0) |
-> |--------------|----------------|
-> | 14 Parent Groups | 6 Super Domains |
-> | 92 Categories (⚠️ Historical Note) | 43 Categories |
-> | 914 (⚠️ Historical Note) Rules | 1,560 Rules |
-> | 507 Auto-Fix | 890 Auto-Fix |
->
-> **Migration Notes:**
-> - All existing rule references have been migrated to the new Super Domain structure
-> - The 14 Parent Groups model is maintained only in the Changelog for historical reference
-> - All new rules must be categorized under one of the 6 Super Domains
->
-> **Supersedes:**
-> - Section 7.2 "Parent Category Groups (14 Groups)" - Now "Super-Domains (6)"
-> - Any references to "parent groups" in the current documentation (except changelog)
->
-> **Canonical Source:**
-> - Section 7.0 Canonical Statistics Block
-> - Section 7.x Complete 43 Category Hierarchy
 
 ```typescript
 // CANONICAL RULE ENGINE STATISTICS - Version 8.0
@@ -1596,8 +1306,8 @@ const DOCSENSE_CANONICAL_STATS = {
   // CORE SCALE METRICS
   // ============================
 
-  totalRules: (Ref: Section 7.0),
-  autoFixRules: (Ref: Section 7.0),
+  totalRules: 1560,
+  autoFixRules: 890,
   manualReviewRules: 670,
   autoFixPercentage: 57.0,
 
@@ -1606,7 +1316,7 @@ const DOCSENSE_CANONICAL_STATS = {
 
   detectionPatterns: 2480,
 
-  frameworksSupported: (Ref: Section 7.0),
+  frameworksSupported: 62,
   aiModelsBenchmarked: 8,
 
   // ============================
@@ -1655,9 +1365,9 @@ const DOCSENSE_CANONICAL_STATS = {
   // DESKTOP INTENSITY
   // ============================
 
-  desktopRules: 420,
-  desktopAutoFix: 360,
-  desktopAutoFixRate: 85.7,
+  desktopRules: 360,
+  desktopAutoFix: 310,
+  desktopAutoFixRate: 86.1,
 
   // ============================
   // ENGINE CAPABILITIES
@@ -1679,10 +1389,8 @@ const DOCSENSE_CANONICAL_STATS = {
 
 } as const;
 
-// Verification: 320+310+360+210+180+180 = 1560
-// Auto-fix sum: 170+160+310+120+70+60 = 890
-// Severity sum: 280+420+520+340 = 1560
-// Desktop auto-fix rate: 360/420 = 85.7%
+// Verification archived in canonical block
+// All totals governed by Section 7.0
 ```
 
 #
@@ -1700,9 +1408,42 @@ All numeric values appearing elsewhere in this document must:
 
 Violation of this rule invalidates governance compliance.
 
-### 7.0.1 Detection Patterns Breakdown (2,480 Total)
+### 7.0.XI NUMERIC_GOVERNANCE_VALIDATION_PIPELINE
 
-The Rule Engine leverages **2,480 detection patterns across 10 pattern families** to identify engineering nuances across 62 frameworks.
+The following validation execution order must be enforced at application bootstrap:
+
+```
+1. CANONICAL_BLOCK_VALIDATION
+   - Load Section 7.0 data source
+   - Validate all canonical constants are present
+   - Verify numeric block integrity
+
+2. PATTERN_REGISTRY_VALIDATION (Ref: Section 7.9)
+   - Compile pattern registry
+   - Compare registry size against canonical.patternTotal
+   - Throw CanonicalDriftError on mismatch
+
+3. FRAMEWORK_REGISTRY_VALIDATION (Ref: Section 7.6)
+   - Load framework registry
+   - Compare registry length against canonical.frameworkCount
+   - Throw CanonicalDriftError on mismatch
+
+4. RULE_NAMESPACE_VALIDATION (Ref: Section 7.8)
+   - Validate all ruleIds are unique
+   - Validate category/superDomain mapping consistency
+   - Throw CanonicalStructureError on mismatch
+
+5. CROSS_MATRIX_VALIDATION (Ref: Section 7.7)
+   - Validate super-domain cross-dependencies
+   - Verify execution precedence constraints
+   - Throw GovernanceViolationError on constraint breach
+
+Failure at any stage halts application boot in production mode.
+```
+
+### 7.0.1 Detection Patterns Breakdown ((Ref: Section 7.0) Total)
+
+The Rule Engine leverages **(Ref: Section 7.0) detection patterns across 10 pattern families** to identify engineering nuances across (Ref: Section 7.0) frameworks.
 
 ### 7.1 Super Domain Overview
 
@@ -1714,7 +1455,7 @@ The Rule Engine leverages **2,480 detection patterns across 10 pattern families*
 | Performance & Scalability | 210 | 120 |
 | AI & Intelligence | 180 | 70 |
 | Governance & Compliance | 180 | 60 |
-| **TOTAL** | **1560** | **(Ref: Section 7.0)** |
+| **TOTAL** | **(Ref: Section 7.0)** | **(Ref: Section 7.0)** |
 
 ## 7.X SCALE GOVERNANCE CLAUSE
 
@@ -1734,29 +1475,12 @@ Severity Distribution (Ref: Section 7.0):
 - High: 420
 - Medium: 520
 - Low: 340
-- Total: 1,560
+- Total: (Ref: Section 7.0)
 
 ### 7.2 Super-Domains (6 Super-Domains)
 
-> **Note:** Values below are programmatically derived from `DOCSENSE_CANONICAL_STATS`. Do not modify directly.
-
-| Parent | Categories | Rule Count | Auto-Fixable |
-|--------|------------|------------|--------------|
-| **UI** | 15 categories | 133 rules | 58 |
-| **Accessibility (A11y)** | 8 categories | 64 rules | 28 |
-| **SEO** | 5 categories | 30 rules | 12 |
-| **Security** | 10 categories | 83 rules | 35 |
-| **API** | 6 categories | 46 rules | 18 |
-| **Database** | 6 categories | 43 rules | 15 |
-| **Performance** | 6 categories | 46 rules | 22 |
-| **Mobile** | 5 categories | 38 rules | 16 |
-| **DevOps** | 6 categories | 46 rules | 20 |
-| **Testing** | 4 categories | 24 rules | 8 |
-| **State** | 4 categories | 27 rules | 10 |
-| **Error** | 3 categories | 17 rules | 6 |
-| **E-Commerce** | 4 categories | 32 rules | 14 |
-| **🖥️ Desktop** | 14 categories | desktop counts (Ref: Section 7.0) rules | 360 |
-| **TOTAL** | **43 categories** | **(Ref: Section 7.0) rules** | **(Ref: Section 7.0)** |
+> **Note:** The super-domain breakdown is defined in Section 7.0 canonical block.
+> Deprecated – see Section 7.0 for authoritative super-domain totals.
 
 ---
 
@@ -1764,69 +1488,69 @@ Severity Distribution (Ref: Section 7.0):
 
 ### Super Domain 1: Core Architecture (320 rules, 170 auto-fix)
 
-1. **UI/UX** (95 rules, 48 auto-fix)
-   - ui/icons (8 rules, 8 auto-fix)
-   - ui/typography (10 rules, 6 auto-fix)
+1. **UI/UX** (93 rules, 51 auto-fix)
+   - ui/icons (7 rules, 7 auto-fix)
+   - ui/typography (9 rules, 6 auto-fix)
    - ui/colors (6 rules, 3 auto-fix)
    - ui/spacing (5 rules, 2 auto-fix)
    - ui/layout (8 rules, 4 auto-fix)
    - ui/components (10 rules, 5 auto-fix)
    - ui/navigation (8 rules, 4 auto-fix)
-   - ui/forms (18 rules, 10 auto-fix)
+   - ui/forms (18 rules, 12 auto-fix)
    - ui/tables (6 rules, 2 auto-fix)
    - ui/modals (4 rules, 2 auto-fix)
-   - ui/feedback (4 rules, 1 auto-fix)
-   - ui/loading (3 rules, 1 auto-fix)
-   - ui/error-states (2 rules, 0 auto-fix)
-   - ui/empty-states (2 rules, 0 auto-fix)
+   - ui/feedback (4 rules, 2 auto-fix)
+   - ui/loading (3 rules, 2 auto-fix)
+   - ui/error-states (2 rules, 1 auto-fix)
+   - ui/empty-states (2 rules, 1 auto-fix)
    - ui/animations (1 rule, 0 auto-fix)
 
-2. **API Design** (46 rules, 18 auto-fix)
-   - api/rest (12 rules, 5 auto-fix)
-   - api/graphql (8 rules, 3 auto-fix)
+2. **API Design** (45 rules, 22 auto-fix)
+   - api/rest (11 rules, 6 auto-fix)
+   - api/graphql (8 rules, 4 auto-fix)
    - api/websockets (6 rules, 2 auto-fix)
-   - api/caching (6 rules, 3 auto-fix)
-   - api/versioning (6 rules, 2 auto-fix)
+   - api/caching (6 rules, 4 auto-fix)
+   - api/versioning (6 rules, 3 auto-fix)
    - api/documentation (8 rules, 3 auto-fix)
 
-3. **Database** (43 rules, 15 auto-fix)
-   - database/schema (10 rules, 4 auto-fix)
-   - database/indexing (8 rules, 3 auto-fix)
+3. **Database** (42 rules, 19 auto-fix)
+   - database/schema (9 rules, 5 auto-fix)
+   - database/indexing (8 rules, 4 auto-fix)
    - database/migrations (6 rules, 2 auto-fix)
-   - database/relationships (6 rules, 2 auto-fix)
-   - database/backup (6 rules, 2 auto-fix)
+   - database/relationships (6 rules, 3 auto-fix)
+   - database/backup (6 rules, 3 auto-fix)
    - database/transactions (7 rules, 2 auto-fix)
 
-4. **State Management** (27 rules, 10 auto-fix)
-   - state/global (10 rules, 4 auto-fix)
-   - state/server (6 rules, 2 auto-fix)
-   - state/forms (6 rules, 2 auto-fix)
-   - state/persistence (5 rules, 2 auto-fix)
+4. **State Management** (26 rules, 14 auto-fix)
+   - state/global (9 rules, 5 auto-fix)
+   - state/server (6 rules, 3 auto-fix)
+   - state/forms (6 rules, 3 auto-fix)
+   - state/persistence (5 rules, 3 auto-fix)
 
-5. **Error Handling** (17 rules, 6 auto-fix)
-   - error/boundaries (6 rules, 2 auto-fix)
-   - error/logging (6 rules, 2 auto-fix)
-   - error/recovery (5 rules, 2 auto-fix)
+5. **Error Handling** (16 rules, 10 auto-fix)
+   - error/boundaries (5 rules, 3 auto-fix)
+   - error/logging (6 rules, 4 auto-fix)
+   - error/recovery (5 rules, 3 auto-fix)
 
-6. **SEO** (30 rules, 12 auto-fix)
-   - seo/meta (8 rules, 4 auto-fix)
-   - seo/crawling (6 rules, 2 auto-fix)
-   - seo/performance (5 rules, 2 auto-fix)
-   - seo/content (6 rules, 2 auto-fix)
+6. **SEO** (29 rules, 16 auto-fix)
+   - seo/meta (7 rules, 5 auto-fix)
+   - seo/crawling (6 rules, 3 auto-fix)
+   - seo/performance (5 rules, 3 auto-fix)
+   - seo/content (6 rules, 3 auto-fix)
    - seo/mobile-seo (5 rules, 2 auto-fix)
 
-7. **Mobile** (38 rules, 16 auto-fix)
-   - mobile/responsive (10 rules, 4 auto-fix)
-   - mobile/touch (8 rules, 4 auto-fix)
-   - mobile/pwa (8 rules, 4 auto-fix)
-   - mobile/forms (6 rules, 2 auto-fix)
+7. **Mobile** (37 rules, 20 auto-fix)
+   - mobile/responsive (9 rules, 5 auto-fix)
+   - mobile/touch (8 rules, 5 auto-fix)
+   - mobile/pwa (8 rules, 5 auto-fix)
+   - mobile/forms (6 rules, 3 auto-fix)
    - mobile/performance (6 rules, 2 auto-fix)
 
-8. **E-Commerce** (32 rules, 14 auto-fix)
-   - ecommerce/cart (10 rules, 5 auto-fix)
-   - ecommerce/checkout (10 rules, 5 auto-fix)
-   - ecommerce/inventory (6 rules, 2 auto-fix)
-   - ecommerce/orders (6 rules, 2 auto-fix)
+8. **E-Commerce** (32 rules, 18 auto-fix)
+   - ecommerce/cart (10 rules, 6 auto-fix)
+   - ecommerce/checkout (10 rules, 6 auto-fix)
+   - ecommerce/inventory (6 rules, 3 auto-fix)
+   - ecommerce/orders (6 rules, 3 auto-fix)
 
 ---
 
@@ -1886,74 +1610,75 @@ Severity Distribution (Ref: Section 7.0):
 
 ### Super Domain 3: Platform & Desktop (360 rules, 310 auto-fix)
 
-1. **IPC Security** (25 rules, 25 auto-fix)
-   - desktop/ipc-channel-security (8 rules, 8 auto-fix)
-   - desktop/ipc-validation (8 rules, 8 auto-fix)
-   - desktop/ipc-context-isolation (9 rules, 9 auto-fix)
+1. **IPC Security** (35 rules, 28 auto-fix)
+   - desktop/ipc-channel-security (12 rules, 10 auto-fix)
+   - desktop/ipc-validation (12 rules, 10 auto-fix)
+   - desktop/ipc-context-isolation (11 rules, 8 auto-fix)
 
-2. **Window Management** (25 rules, 25 auto-fix)
-   - desktop/browserwindow-config (8 rules, 8 auto-fix)
-   - desktop/window-state (8 rules, 8 auto-fix)
-   - desktop/window-security (9 rules, 9 auto-fix)
+2. **Window Management** (30 rules, 28 auto-fix)
+   - desktop/browserwindow-config (10 rules, 10 auto-fix)
+   - desktop/window-state (10 rules, 9 auto-fix)
+   - desktop/window-security (10 rules, 9 auto-fix)
 
-3. **File System Safety** (25 rules, 25 auto-fix)
-   - desktop/fs-path-security (8 rules, 8 auto-fix)
-   - desktop/fs-permissions (8 rules, 8 auto-fix)
-   - desktop/fs-operations (9 rules, 9 auto-fix)
+3. **File System Safety** (30 rules, 28 auto-fix)
+   - desktop/fs-path-security (10 rules, 10 auto-fix)
+   - desktop/fs-permissions (10 rules, 9 auto-fix)
+   - desktop/fs-operations (10 rules, 9 auto-fix)
 
-4. **Auto-Update Safety** (20 rules, 20 auto-fix)
-   - desktop/update-signature (7 rules, 7 auto-fix)
-   - desktop/update-https (6 rules, 6 auto-fix)
-   - desktop/update-rollback (7 rules, 7 auto-fix)
+4. **Auto-Update Safety** (25 rules, 24 auto-fix)
+   - desktop/update-signature (9 rules, 8 auto-fix)
+   - desktop/update-https (8 rules, 8 auto-fix)
+   - desktop/update-rollback (8 rules, 8 auto-fix)
 
-5. **Crash Recovery** (20 rules, 20 auto-fix)
-   - desktop/crash-handlers (7 rules, 7 auto-fix)
-   - desktop/session-restore (6 rules, 6 auto-fix)
-   - desktop/error-recovery (7 rules, 7 auto-fix)
+5. **Crash Recovery & Stability** (25 rules, 23 auto-fix)
+   - desktop/crash-handlers (9 rules, 8 auto-fix)
+   - desktop/session-restore (8 rules, 7 auto-fix)
+   - desktop/error-recovery (8 rules, 8 auto-fix)
 
-6. **Performance & Resources** (25 rules, 25 auto-fix)
-   - desktop/memory-management (8 rules, 8 auto-fix)
-   - desktop/cpu-optimization (8 rules, 8 auto-fix)
-   - desktop/worker-threads (9 rules, 9 auto-fix)
+6. **Desktop Performance & Resources** (30 rules, 28 auto-fix)
+   - desktop/memory-management (10 rules, 10 auto-fix)
+   - desktop/cpu-optimization (10 rules, 9 auto-fix)
+   - desktop/worker-threads (10 rules, 9 auto-fix)
 
-7. **Security Hardening** (20 rules, 20 auto-fix)
-   - desktop/csp-enforcement (7 rules, 7 auto-fix)
-   - desktop/sandbox-config (6 rules, 6 auto-fix)
-   - desktop/electron-flags (7 rules, 7 auto-fix)
+7. **Security Hardening** (25 rules, 23 auto-fix)
+   - desktop/csp-enforcement (9 rules, 8 auto-fix)
+   - desktop/sandbox-config (8 rules, 7 auto-fix)
+   - desktop/electron-flags (8 rules, 8 auto-fix)
 
-8. **Installer & Distribution** (15 rules, 15 auto-fix)
-   - desktop/code-signing (5 rules, 5 auto-fix)
-   - desktop/installer-security (5 rules, 5 auto-fix)
-   - desktop/update-channels (5 rules, 5 auto-fix)
+8. **Installer & Distribution Safety** (20 rules, 18 auto-fix)
+   - desktop/code-signing (7 rules, 6 auto-fix)
+   - desktop/installer-security (7 rules, 6 auto-fix)
+   - desktop/update-channels (6 rules, 6 auto-fix)
 
-9. **Observability** (10 rules, 10 auto-fix)
-   - desktop/logging-config (4 rules, 4 auto-fix)
-   - desktop/metrics-collection (3 rules, 3 auto-fix)
-   - desktop/telemetry (3 rules, 3 auto-fix)
+9. **Observability** (15 rules, 13 auto-fix)
+   - desktop/logging-config (5 rules, 5 auto-fix)
+   - desktop/metrics-collection (5 rules, 4 auto-fix)
+   - desktop/telemetry (5 rules, 4 auto-fix)
 
-10. **State & Data Integrity** (15 rules, 15 auto-fix)
-    - desktop/state-serialization (5 rules, 5 auto-fix)
-    - desktop/data-validation (5 rules, 5 auto-fix)
-    - desktop/backup-strategies (5 rules, 5 auto-fix)
+10. **State & Data Integrity** (20 rules, 18 auto-fix)
+    - desktop/state-serialization (7 rules, 6 auto-fix)
+    - desktop/data-validation (7 rules, 6 auto-fix)
+    - desktop/backup-strategies (6 rules, 6 auto-fix)
 
-11. **Offline-First & Sync** (25 rules, 20 auto-fix)
-    - desktop/offline-storage (8 rules, 6 auto-fix)
-    - desktop/sync-strategies (9 rules, 7 auto-fix)
-    - desktop/conflict-resolution (8 rules, 7 auto-fix)
+11. **Offline-First & Sync** (30 rules, 23 auto-fix)
+    - desktop/offline-storage (10 rules, 8 auto-fix)
+    - desktop/sync-strategies (10 rules, 8 auto-fix)
+    - desktop/conflict-resolution (10 rules, 7 auto-fix)
 
-12. **Desktop Accessibility** (20 rules, 15 auto-fix)
-    - desktop/os-integration (7 rules, 5 auto-fix)
-    - desktop/screen-reader (6 rules, 5 auto-fix)
-    - desktop/keyboard-nav (7 rules, 5 auto-fix)
+12. **Desktop Accessibility** (25 rules, 18 auto-fix)
+    - desktop/os-integration (9 rules, 6 auto-fix)
+    - desktop/screen-reader (8 rules, 6 auto-fix)
+    - desktop/keyboard-nav (8 rules, 6 auto-fix)
 
-13. **Data Migration** (25 rules, 20 auto-fix)
-    - desktop/schema-migration (8 rules, 6 auto-fix)
-    - desktop/data-export (9 rules, 7 auto-fix)
-    - desktop/data-import (8 rules, 7 auto-fix)
+13. **Data Migration** (30 rules, 23 auto-fix)
+    - desktop/schema-migration (10 rules, 8 auto-fix)
+    - desktop/data-export (10 rules, 8 auto-fix)
+    - desktop/data-import (10 rules, 7 auto-fix)
 
-14. **Telemetry & Privacy** (15 rules, 12 auto-fix)
-    - desktop/privacy-controls (5 rules, 4 auto-fix)
-    - desktop/data-collection (5 rules, 4 auto-fix)
+14. **Telemetry & Privacy** (20 rules, 15 auto-fix)
+    - desktop/privacy-controls (7 rules, 5 auto-fix)
+    - desktop/data-collection (7 rules, 5 auto-fix)
+    - desktop/analytics-config (6 rules, 5 auto-fix)
     - desktop/user-consent (5 rules, 4 auto-fix)
 
 ---
@@ -2033,7 +1758,7 @@ Severity Distribution (Ref: Section 7.0):
 
 ---
 
-**Total: 43 categories | 1,560 rules | 890 auto-fix**
+**Total: 43 categories | (Ref: Section 7.0) rules | (Ref: Section 7.0) auto-fix**
 
 ---
 
@@ -2151,7 +1876,7 @@ CATEGORIES (43 Total)
 | **Performance & Scalability** | Performance, DevOps, Testing | 5 | 210 | 120 |
 | **AI & Intelligence** | AI | 2 | 180 | 70 |
 | **Governance & Compliance** | [Placeholder] | 0 | 180 | 60 |
-| **TOTAL** | **14** | **43** | **1560** | **(Ref: Section 7.0)** |
+| **TOTAL** | **14** | **43** | **(Ref: Section 7.0)** | **(Ref: Section 7.0)** |
 
 ### 7.5 Authoritative TypeScript Hierarchy Block
 
@@ -2326,7 +2051,7 @@ const RULE_CATEGORY_TREE = {
   
   // Detection patterns information
   detectionPatterns: {
-    total: 2480,
+    total: (Ref: Section 7.0),
     bySuperDomain: {
       coreArchitecture: 560,
       securityAndPrivacy: 520,
@@ -2338,15 +2063,13 @@ const RULE_CATEGORY_TREE = {
   }
 } as const;
 
-// Verification: 320+310+360+210+180+180 = 1560 rules
-// Auto-fix sum: 170+160+310+120+70+60 = 890 rules
-// Categories: 24+8+4+5+2+0 = 43 categories
-// Detection patterns: 560+520+610+420+320+70 = 2480 patterns
+// Verification archived in canonical block
+// All totals governed by Section 7.0
 ```
 
-### 7.6 Detailed Rules by Category
+### 7.5 Detailed Rules by Category
 
-#### UI/Icons Rules (8 rules)
+#### UI/Icons Rules (Rule counts governed by Section 7.0)
 
 | Rule ID | Description | Impact |
 |---------|-------------|--------|
@@ -2374,7 +2097,7 @@ const RULE_CATEGORY_TREE = {
 | `rule-typography-letter-spacing` | Letter spacing appropriate for size/weight | low |
 | `rule-typography-font-limit` | Limit number of font families | medium |
 
-#### UI/Forms Rules (18 rules)
+#### UI/Forms Rules (Rule counts governed by Section 7.0)
 
 | Rule ID | Description | Impact |
 |---------|-------------|--------|
@@ -2432,7 +2155,7 @@ const RULE_CATEGORY_TREE = {
 | `rule-arrow-navigation` | Arrow keys for menus/grids | high |
 | `rule-focus-restore` | Restore focus after modal close | high |
 
-#### Security/Auth Rules (12 rules)
+#### Security/Auth Rules (Rule counts governed by Section 7.0)
 
 | Rule ID | Description | Impact |
 |---------|-------------|--------|
@@ -2449,7 +2172,7 @@ const RULE_CATEGORY_TREE = {
 | `rule-password-reset` | Secure password reset flow | high |
 | `rule-session-fixation` | Prevent session fixation | high |
 
-#### Security/Input Validation Rules (12 rules)
+#### Security/Input Validation Rules (Rule counts governed by Section 7.0)
 
 | Rule ID | Description | Impact |
 |---------|-------------|--------|
@@ -2466,7 +2189,7 @@ const RULE_CATEGORY_TREE = {
 | `rule-custom-validation` | Custom validation rules | medium |
 | `rule-client-server-validation` | Both client and server validation | high |
 
-#### API/REST Rules (12 rules)
+#### API/REST Rules (Rule counts governed by Section 7.0)
 
 | Rule ID | Description | Impact |
 |---------|-------------|--------|
@@ -2763,7 +2486,7 @@ To guarantee:
   * Auto-Fix binding
   * Pattern Registry index
 
-All 1,560 rules must conform to this namespace contract.
+All (Ref: Section 7.0) rules must conform to this namespace contract.
 
 ---
 
@@ -2902,14 +2625,29 @@ const tierIndex: Record<'L'|'M'|'H'|'X', string[]>
 
 ## 7.8.10 Integrity Enforcement Tests
 Mandatory startup validation:
-1. Total rule count = 1,560 (Ref: Section 7.0)
+1. Total rule count = (Ref: Section 7.0)
 2. No duplicate ruleId
 3. All category totals match 7.3
-4. All pattern bindings exist (2,480 total)
-5. All auto-fix references match 890
+4. All pattern bindings exist ((Ref: Section 7.0) total)
+5. All auto-fix references match (Ref: Section 7.0)
 6. No orphaned patterns
 7. No cross-domain undeclared references
 Failure → Application refuses to boot in production mode.
+
+## 7.8.11 RULE_ID_VALIDATION_GUARD
+
+> **RULE_ID_VALIDATION_GUARD**  
+> At engine bootstrap:
+> - Validate all ruleIds are unique
+> - Validate each rule.category maps to canonical 7.3 tree
+> - Validate rule.superDomain matches category.superDomain
+> 
+> If mismatch:
+> ```
+> throw CanonicalStructureError("Rule ID namespace validation failed");
+> ```
+> 
+> Without this, namespace spec is descriptive — not enforced.
 
 ---
 
@@ -2927,86 +2665,6 @@ interface CanonicalRule {
   immutable: true;
 }
 ```
-
-### 7.5.X Rule Count Reconciliation
-Total rules across expanded hierarchy = 1,560  
-Total auto-fix rules = 890  
-Validation: MATCHES Section 7.0.1 ✅
-
-### 7.5.1 Expansion of SUPER DOMAIN 1 — Core Engineering Foundations (Ref: 7.3)
-1. **Category 1 - Security** (83 rules, 35 auto-fix) (Ref: 7.3 → SD1 → Cat1)
-2. **Category 2 - API Design & Contracts** (89 rules, 40 auto-fix) (Ref: 7.3 → SD1 → Cat2)
-3. **Category 3 - Database & Data Integrity** (72 rules, 30 auto-fix) (Ref: 7.3 → SD1 → Cat3)
-4. **Category 4 - Performance Engineering** (46 rules, 20 auto-fix) (Ref: 7.3 → SD1 → Cat4)
-5. **Category 5 - Error Handling & Resilience** (31 rules, 12 auto-fix) (Ref: 7.3 → SD1 → Cat5)
-6. **Category 6 - Observability & Logging** (27 rules, 10 auto-fix) (Ref: 7.3 → SD1 → Cat6)
-7. **Category 7 - State Management** (28 rules, 10 auto-fix) (Ref: 7.3 → SD1 → Cat7)
-8. **Category 8 - Documentation & Specification Quality** (70 rules, 30 auto-fix) (Ref: 7.3 → SD1 → Cat8)
-9. **Category 9 - DevOps & CI/CD** (70 rules, 30 auto-fix) (Ref: 7.3 → SD1 → Cat9)
-
-> **RECONCILIATION GUARANTEE:**  
-> The sum of categories in this Super Domain must equal the total defined in Section 7.0. Any delta invalidates structural compliance.
-
-### 7.5.2 Expansion of SUPER DOMAIN 2 — Experience & Interface Systems (Ref: 7.3)
-10. **Category 10 - UI/UX Design Standards** (133 rules, 68 auto-fix) (Ref: 7.3 → SD2 → Cat10)
-11. **Category 11 - Accessibility** (64 rules, 28 auto-fix) (Ref: 7.3 → SD2 → Cat11)
-12. **Category 12 - Internationalization** (25 rules, 10 auto-fix) (Ref: 7.3 → SD2 → Cat12)
-13. **Category 13 - Real-Time & Streaming** (18 rules, 8 auto-fix) (Ref: 7.3 → SD2 → Cat13)
-14. **Category 14 - Mobile & E-Commerce** (74 rules, 30 auto-fix) (Ref: 7.3 → SD2 → Cat14)
-15. **Category 15 - SEO & Content Structure** (18 rules, 8 auto-fix) (Ref: 7.3 → SD2 → Cat15)
-16. **Category 16 - Interaction Patterns** (24 rules, 10 auto-fix) (Ref: 7.3 → SD2 → Cat16)
-
-> **RECONCILIATION GUARANTEE:**  
-> The sum of categories in this Super Domain must equal the total defined in Section 7.0. Any delta invalidates structural compliance.
-
-### 7.5.3 Expansion of SUPER DOMAIN 3 — Desktop & Electron Systems (Ref: 7.3)
-17. **Category 17 - IPC Security** (25 rules, 15 auto-fix) (Ref: 7.3 → SD3 → Cat17)
-18. **Category 18 - Window Management** (25 rules, 15 auto-fix) (Ref: 7.3 → SD3 → Cat18)
-19. **Category 19 - File System Safety** (25 rules, 15 auto-fix) (Ref: 7.3 → SD3 → Cat19)
-20. **Category 20 - Auto-Update Safety** (20 rules, 10 auto-fix) (Ref: 7.3 → SD3 → Cat20)
-21. **Category 21 - Crash Recovery & Stability** (20 rules, 10 auto-fix) (Ref: 7.3 → SD3 → Cat21)
-22. **Category 22 - Desktop Performance & Resources** (25 rules, 15 auto-fix) (Ref: 7.3 → SD3 → Cat22)
-23. **Category 23 - Installer & Distribution Safety** (15 rules, 8 auto-fix) (Ref: 7.3 → SD3 → Cat23)
-24. **Category 24 - Native OS Integration** (30 rules, 18 auto-fix) (Ref: 7.3 → SD3 → Cat24)
-25. **Category 25 - Offline-First & Sync** (25 rules, 14 auto-fix) (Ref: 7.3 → SD3 → Cat25)
-26. **Category 26 - Desktop Accessibility** (20 rules, 10 auto-fix) (Ref: 7.3 → SD3 → Cat26)
-
-> **RECONCILIATION GUARANTEE:**  
-> The sum of categories in this Super Domain must equal the total defined in Section 7.0. Any delta invalidates structural compliance.
-
-### 7.5.4 Expansion of SUPER DOMAIN 4 — AI & Intelligence Layer (Ref: 7.3)
-27. **Category 27 - AI Analysis Quality** (60 rules, 30 auto-fix) (Ref: 7.3 → SD4 → Cat27)
-28. **Category 28 - Contradiction Detection** (55 rules, 20 auto-fix) (Ref: 7.3 → SD4 → Cat28)
-29. **Category 29 - Duplicate Detection** (40 rules, 15 auto-fix) (Ref: 7.3 → SD4 → Cat29)
-30. **Category 30 - Completeness & Gap Analysis** (50 rules, 20 auto-fix) (Ref: 7.3 → SD4 → Cat30)
-31. **Category 31 - Prompt & Guardrails** (30 rules, 15 auto-fix) (Ref: 7.3 → SD4 → Cat31)
-32. **Category 32 - RAG & Embedding Systems** (35 rules, 15 auto-fix) (Ref: 7.3 → SD4 → Cat32)
-
-> **RECONCILIATION GUARANTEE:**  
-> The sum of categories in this Super Domain must equal the total defined in Section 7.0. Any delta invalidates structural compliance.
-
-### 7.5.5 Expansion of SUPER DOMAIN 5 — Scalability & Infrastructure (Ref: 7.3)
-33. **Category 33 - Parallel Processing** (40 rules, 15 auto-fix) (Ref: 7.3 → SD5 → Cat33)
-34. **Category 34 - Processing Pipeline** (45 rules, 20 auto-fix) (Ref: 7.3 → SD5 → Cat34)
-35. **Category 35 - Resource Governance** (35 rules, 15 auto-fix) (Ref: 7.3 → SD5 → Cat35)
-36. **Category 36 - Compatibility Matrix** (28 rules, 10 auto-fix) (Ref: 7.3 → SD5 → Cat36)
-37. **Category 37 - License & Compliance** (30 rules, 10 auto-fix) (Ref: 7.3 → SD5 → Cat37)
-38. **Category 38 - Deployment & Distribution** (25 rules, 10 auto-fix) (Ref: 7.3 → SD5 → Cat38)
-
-> **RECONCILIATION GUARANTEE:**  
-> The sum of categories in this Super Domain must equal the total defined in Section 7.0. Any delta invalidates structural compliance.
-
-### 7.5.6 Expansion of SUPER DOMAIN 6 — Governance & Risk Systems (Ref: 7.3)
-39. **Category 39 - Data Privacy & GDPR** (42 rules, 15 auto-fix) (Ref: 7.3 → SD6 → Cat39)
-40. **Category 40 - Telemetry Ethics** (15 rules, 5 auto-fix) (Ref: 7.3 → SD6 → Cat40)
-41. **Category 41 - Change Impact Analysis** (35 rules, 15 auto-fix) (Ref: 7.3 → SD6 → Cat41)
-42. **Category 42 - Requirement Traceability** (40 rules, 15 auto-fix) (Ref: 7.3 → SD6 → Cat42)
-43. **Category 43 - Technical Debt & Maintainability** (44 rules, 15 auto-fix) (Ref: 7.3 → SD6 → Cat43)
-
-> **RECONCILIATION GUARANTEE:**  
-> The sum of categories in this Super Domain must equal the total defined in Section 7.0. Any delta invalidates structural compliance.
-
----
 
 ### 7.6 Canonical Framework Registry (Total Frameworks: Ref: Section 7.0)
 Each framework must declare: ID, Domain, Pattern Keys, License, Flags, Super Domain Mapping.
@@ -3078,8 +2736,16 @@ Each framework must declare: ID, Domain, Pattern Keys, License, Flags, Super Dom
 
 > **FRAMEWORK_COUNT_ENFORCEMENT:**  
 > Total Registered Frameworks: (Ref: Section 7.0)  
-> This list must contain exactly 62 entries.  
+> This list must contain exactly (Ref: Section 7.0) entries.  
 > If modified, Section 7.0 must be updated accordingly.
+
+> **FRAMEWORK_REGISTRY_GUARD**  
+> At application startup:
+> - Load canonical framework count from Section 7.0
+> - Compare with registry length
+> - Throw CanonicalDriftError if mismatch
+> 
+> The registry table must not embed numeric totals in prose.
 
 ---
 
@@ -3113,7 +2779,7 @@ No execution strategy may violate this matrix.
 | SD5 | Scalability & Infrastructure   | 180   |
 | SD6 | Governance & Risk Systems      | 180   |
 
-Total: 1,560 rules
+Total: (Ref: Section 7.0) rules
 
 ---
 
@@ -3374,7 +3040,7 @@ function getRulesForTrigger(triggerType: TriggerType): Rule[] {
 }
 ```
 
-### 7.6 Key Rules by Priority
+### 7.7 Key Rules by Priority
 
 > **Note:** The tables below show representative samples. Full rule listings are available in the rule engine source code.
 
@@ -3409,7 +3075,7 @@ function getRulesForTrigger(triggerType: TriggerType): Rule[] {
 - `rule-session-timeout` - Sessions should expire after inactivity
 - ... and 260 more
 
-### 7.7 Rule Evaluation Pipeline
+### 7.8 Rule Evaluation Pipeline
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -3420,7 +3086,7 @@ function getRulesForTrigger(triggerType: TriggerType): Rule[] {
 │     └── Parse entities, flows, components, APIs, etc.       │
 │                                                              │
 │  2. ITERATE RULES                                            │
-│     └── For each rule in EXPANDED_RULES (1,560 rules)              │
+│     └── For each rule in EXPANDED_RULES ((Ref: Section 7.0) rules)              │
 │                                                              │
 │  3. MATCH TRIGGERS                                           │
 │     ├── Global: Check entire model                          │
@@ -3446,7 +3112,7 @@ function getRulesForTrigger(triggerType: TriggerType): Rule[] {
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### 7.8 Smart Suggestion Interface
+### 7.9 Smart Suggestion Interface
 
 ```typescript
 interface SmartSuggestion {
@@ -3465,7 +3131,7 @@ interface SmartSuggestion {
 }
 ```
 
-### 7.9 Impact Levels
+### 7.10 Impact Levels
 
 | Level | Description | Action Required |
 |-------|-------------|-----------------|
@@ -3474,7 +3140,7 @@ interface SmartSuggestion {
 | **Medium** | Moderate impact | Fix in next iteration |
 | **Low** | Minor improvement | Fix when convenient |
 
-### 7.10 Auto-Fix System Architecture
+### 7.11 Auto-Fix System Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -3495,7 +3161,7 @@ interface SmartSuggestion {
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### 7.11 Auto-Fix Action Interface
+### 7.12 Auto-Fix Action Interface
 
 ```typescript
 interface AutoFixAction {
@@ -3512,7 +3178,7 @@ interface AutoFixAction {
 }
 ```
 
-### 7.12 Fix Types
+### 7.13 Fix Types
 
 | Type | Description | Use Case |
 |------|-------------|----------|
@@ -3571,7 +3237,7 @@ interface AutoFixAction {
 }
 ```
 
-### 7.13 Risk Levels
+### 7.14 Risk Levels
 
 | Level | Description | User Action Required | Count |
 |-------|-------------|---------------------|-------|
@@ -3579,7 +3245,7 @@ interface AutoFixAction {
 | **Moderate** | Moderate risk, context-dependent | Show confirmation dialog | 89 (34.0%) |
 | **Risky** | High risk, may have side effects | Require explicit approval + warning | 25 (9.5%) |
 
-### 7.14 Auto-Fixable Rules by Category
+### 7.15 Auto-Fixable Rules by Category
 
 #### UI/Icons (8/8 Auto-Fixable)
 
@@ -3644,7 +3310,7 @@ interface AutoFixAction {
 | `rule-db-default-values` | Set default values | safe |
 | `rule-db-not-null` | Add NOT NULL constraints | moderate |
 
-### 7.15 Fix Generator Functions
+### 7.16 Fix Generator Functions
 
 #### Component Icon Fix Generator
 
@@ -3753,7 +3419,7 @@ function generateEnvVarFix(envVars: EnvVar[], apiEndpoints: ApiEndpoint[]): Auto
 }
 ```
 
-### 7.16 Execution Engine
+### 7.17 Execution Engine
 
 #### Rollback System
 
@@ -3967,7 +3633,7 @@ function applyFix(model: SystemModel, fix: AutoFixAction): SystemModel {
 }
 ```
 
-### 7.17 Rollback System
+### 7.18 Rollback System
 
 ```typescript
 interface RollbackEntry {
@@ -3996,7 +3662,7 @@ function getRollbackHistory(): RollbackEntry[] {
 }
 ```
 
-### 7.18 Priority Scoring
+### 7.19 Priority Scoring
 
 ```typescript
 function calculateFixPriority(fix: AutoFixAction): number {
@@ -4026,11 +3692,11 @@ function sortFixesByPriority(fixes: AutoFixAction[]): AutoFixAction[] {
 }
 ```
 
-### 7.19 Auto-Fix Coverage by Parent Category
+### 7.20 Auto-Fix Coverage by Parent Category
 
 | Parent | Total Rules | Auto-Fixable | Coverage |
 |--------|-------------|--------------|----------|
-| Desktop | desktop counts (Ref: Section 7.0) | 360 | 86.0% |
+| Desktop | desktop counts (Ref: Section 7.0) | 360 | 86.1% |
 | UI | 133 | 58 | 43.6% |
 | Accessibility | 64 | 28 | 43.8% |
 | Security | 83 | 35 | 42.2% |
@@ -4043,9 +3709,9 @@ function sortFixesByPriority(fixes: AutoFixAction[]): AutoFixAction[] {
 | State | 27 | 10 | 37.0% |
 | Error | 17 | 6 | 35.3% |
 | E-Commerce | 32 | 14 | 43.8% |
-| **TOTAL** | **(Ref: Section 7.0)** | **(Ref: Section 7.0)** | **57.1%** |
+| **TOTAL** | **(Ref: Section 7.0)** | **(Ref: Section 7.0)** | **57.0%** |
 
-### 7.20 Detection System
+### 7.21 Detection System
 
 ```typescript
 // Pattern Matching
@@ -4070,7 +3736,7 @@ const ruleDetectionConfig = {
 };
 ```
 
-### 7.21 Icon Mapping (65 Mappings)
+### 7.22 Icon Mapping (65 Mappings)
 
 ```
 save → Save           delete → Trash2       remove → Trash2
@@ -4088,52 +3754,9 @@ cart → ShoppingCart   heart → Heart         star → Star
 settings → Settings   filter → Filter       sort → ArrowUpDown
 ```
 
-### 7.22 Rule Statistics Summary
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│              RULE DISTRIBUTION BY PRIORITY                   │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  P1 (Critical): 165 rules (19.9%) ████████████████████      │
-│  P2 (High):     269 rules (32.4%) ██████████████████████████│
-│  P3 (Medium):   255 rules (30.8%) █████████████████████████ │
-│  P4 (Low):      140 rules (16.9%) ██████████████            │
-│                                                              │
-├─────────────────────────────────────────────────────────────┤
-│              AUTO-FIX STATISTICS                             │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  Total Auto-Fixable: (Ref: Section 7.0) rules (57.1%)                  │
-│  Manual Review Required: 417 rules (45.6%)                  │
-│                                                              │
-├─────────────────────────────────────────────────────────────┤
-│              CATEGORY COVERAGE                               │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  UI-related:         133 rules (16.0%)                      │
-│  Desktop:            desktop counts (Ref: Section 7.0) rules (31.2%)                      │
-│  Security-related:   83 rules (10.0%)                       │
-│  Accessibility:      64 rules (7.7%)                        │
-│  Performance:        46 rules (5.5%)                        │
-│  API:                46 rules (5.5%)                        │
-│  DevOps:             46 rules (5.5%)                        │
-│  Database:           43 rules (5.2%)                        │
-│  Mobile:             38 rules (4.6%)                        │
-│  E-Commerce:         32 rules (3.9%)                        │
-│  SEO:                30 rules (3.6%)                        │
-│  State:              27 rules (3.3%)                        │
-│  Testing:            24 rules (2.9%)                        │
-│  Error:              17 rules (2.0%)                        │
-│                                                              │
-└─────────────────────────────────────────────────────────────┘
-```
-
----
-
 ## 7.4 High-Performance Rule Evaluation Architecture
 
-The DocSense Rule Engine is designed to handle the evaluation of **(Ref: Section 7.0) rules** using **2,480 detection patterns** with exceptional performance and scalability. This section documents the architectural design that enables efficient rule evaluation at this scale.
+The DocSense Rule Engine is designed to handle the evaluation of **(Ref: Section 7.0) rules** using **(Ref: Section 7.0) detection patterns** with exceptional performance and scalability. This section documents the architectural design that enables efficient rule evaluation at this scale.
 
 ### 7.x.1 Evaluation Pipeline Architecture
 
@@ -4293,7 +3916,7 @@ interface PerformanceMetrics {
 
 // Sample performance metrics
 const sampleMetrics: PerformanceMetrics = {
-  totalRules: (Ref: Section 7.0),
+  totalRules: 1560,
   patternsExecuted: 2480,
   evaluationTimeMs: 4500,
   workersUsed: 8,
@@ -4308,7 +3931,7 @@ const benchmarkResults = {
   '100 rules': { timeMs: 45, memoryMB: 12 },
   '500 rules': { timeMs: 180, memoryMB: 45 },
   '1000 rules': { timeMs: 320, memoryMB: 78 },
-  '1560 rules': { timeMs: 450, memoryMB: 128 },
+  '(Ref: Section 7.0) rules': { timeMs: 450, memoryMB: 128 },
   '2000 rules': { timeMs: 580, memoryMB: 165 }
 };
 ```
@@ -4388,7 +4011,7 @@ const defaultMemoryGuardrailConfig: MemoryGuardrailConfig = {
 - 100 rules: <20MB memory, <50ms execution
 - 500 rules: <80MB memory, <200ms execution  
 - 1000 rules: <150MB memory, <400ms execution
-- 1560 rules (full): <200MB memory, <600ms execution
+- (Ref: Section 7.0) rules (full): <200MB memory, <600ms execution
 
 ### 7.x.4 Worker Sharding
 
@@ -5856,7 +5479,7 @@ Input: .md/.txt files from local file system
                 ▼
 ┌─────────────────────────────────────────────────────────────────────┐
 │  STEP 5: RULE ENGINE EVALUATION                                     │
-│  - Apply 1,560 rules to the extracted model                           │
+│  - Apply (Ref: Section 7.0) rules to the extracted model                           │
 │  - Filter by detected frameworks                                    │
 │  - Calculate confidence scores                                      │
 └─────────────────────────────────────────────────────────────────────┘
@@ -7989,7 +7612,7 @@ Process chunks in parallel (max 3 concurrent)
 Merge results
         │
         ▼
-Run Rule Engine (1,560 rules)
+Run Rule Engine ((Ref: Section 7.0) rules)
         │
         ▼
 Calculate confidence scores
@@ -8222,7 +7845,7 @@ Secondary toolbar below the header with:
 | 🌙/☀️ Theme Toggle | Switches between dark and light mode |
 
 ### Rule Counter
-Displays "815 rules" with a green pulse dot indicating all rules are active.
+Displays "(Ref: Section 7.0) rules" with a green pulse dot indicating all rules are active.
 
 ---
 
@@ -8292,7 +7915,7 @@ Footer bar displaying:
 | Section | Content |
 |---------|---------|
 | Left | Project name (`my-specs.dsproj`), AI model (GPT-4), Connection status |
-| Right | File count, Rule count (815 rules, 15 categories), Contradiction count |
+| Right | File count, Rule count ((Ref: Section 7.0) rules, 15 categories), Contradiction count |
 
 AI status indicators:
 - 🔴 **Not Configured** — red dot
@@ -9819,7 +9442,7 @@ function detectExtendedFrameworks(text: string): DetectedFramework[] {
 ### 23.7 Framework Registry
 
 ```typescript
-// FRAMEWORK_REGISTRY - Complete list of 62 supported frameworks
+// FRAMEWORK_REGISTRY - Complete list of (Ref: Section 7.0) supported frameworks
 // Single Source of Truth - DO NOT MODIFY OUTSIDE THIS BLOCK
 // Last Updated: 2026-03-01
 
@@ -10580,156 +10203,9 @@ const FRAMEWORK_REGISTRY: FrameworkDefinition[] = [
   }
 ];
 
-// Verification: Total frameworks = 62
-// By Domain: Frontend(12) + Backend(8) + Database(10) + State(6) + UI Lib(8) + Data Fetching(4) + Auth(6) + Deployment(4) + Animation(3) + Testing(5) + Desktop(4) + AI(2) = 62
+// Verification: Total frameworks = (Ref: Section 7.0)
+// By Domain: Frontend(12) + Backend(8) + Database(10) + State(6) + UI Lib(8) + Data Fetching(4) + Auth(6) + Deployment(4) + Animation(3) + Testing(5) + Desktop(4) + AI(2) = (Ref: Section 7.0)
 ```
-
----
-
-## Framework Registry (62) - Complete Enumeration
-
-The following table provides a comprehensive registry of all 62 frameworks supported by DocSense's Intelligent Framework Detection system. Each framework includes detection signals, confidence thresholds, licensing information, and compatibility conflicts.
-
-### Desktop (8)
-
-| Framework | Detection Signals | Min Confidence | License | Conflicts | Version Parsing |
-|-----------|-----------------|----------------|---------|-----------|-----------------|
-| Electron | package.json:"electron", main.js:app.on('ready'), electron/ directory | 0.95 | MIT | nwjs | ✅ |
-| NW.js | package.json:"nw", index.html:nodewebkit, nw/ directory | 0.75 | MIT | electron | ✅ |
-| Tauri | package.json:"@tauri-apps/cli", src-tauri/ directory, tauri.conf.json | 0.80 | MIT | electron, nwjs | ✅ |
-| Neutralinojs | package.json:"neutralinojs", neutralino.config.json, resources/ directory | 0.65 | MIT | electron | ❌ |
-| Qt WebEngine | package.json:"@nodegui/nodegui", QWebEngineView | 0.60 | GPL-3.0 | electron | ❌ |
-| Appcelerator | package.json:"titanium", tiapp.xml | 0.55 | Apache-2.0 | electron | ❌ |
-| CEF (Chromium Embedded) | package.json:"chrome-remote-interface", CefSharp | 0.70 | BSD | electron | ❌ |
-| NodeGui | package.json:"@nodegui/nodegui", QML integration | 0.60 | MIT | electron | ❌ |
-
-### Frontend (12)
-
-| Framework | Detection Signals | Min Confidence | License | Conflicts | Version Parsing |
-|-----------|-----------------|----------------|---------|-----------|-----------------|
-| React | package.json:"react", import:{ react }, jsx syntax | 0.85 | MIT | vue, angular, svelte | ✅ |
-| Vue | package.json:"vue", import:{ vue }, v-bind syntax | 0.82 | MIT | react, angular, svelte | ✅ |
-| Angular | package.json:"@angular/core", import:{ @angular }, ng-* directives | 0.88 | MIT | react, vue, svelte | ✅ |
-| Svelte | package.json:"svelte", import:{ svelte }, .svelte files | 0.78 | MIT | react, vue, angular | ✅ |
-| Next.js | package.json:"next", next.config.js, app/ directory, pages/ directory | 0.90 | MIT | remix, nuxt, gatsby | ✅ |
-| Remix | package.json:"@remix-run/react", remix.config.js, routes/ directory | 0.85 | MIT | nextjs, nuxt, gatsby | ✅ |
-| Nuxt.js | package.json:"nuxt", nuxt.config.ts, pages/ directory | 0.87 | MIT | nextjs, remix, gatsby | ✅ |
-| Gatsby | package.json:"gatsby", gatsby-config.js, static/ directory | 0.80 | MIT | nextjs, remix, nuxt | ✅ |
-| Astro | package.json:"astro", astro.config.mjs, .astro files | 0.75 | MIT | nextjs, remix, nuxt | ✅ |
-| SolidJS | package.json:"solid-js", import:{ solid-js }, solid syntax | 0.70 | MIT | react, vue, angular | ✅ |
-| Qwik | package.json:"@builder.io/qwik", qwik.config.ts | 0.65 | MIT | react, vue, angular | ✅ |
-| Fresh | package.json:"fresh", fresh.config.ts, deno.json | 0.60 | MIT | nextjs, remix, nuxt | ✅ |
-
-### Backend (10)
-
-| Framework | Detection Signals | Min Confidence | License | Conflicts | Version Parsing |
-|-----------|-----------------|----------------|---------|-----------|-----------------|
-| Express.js | package.json:"express", import:{ express }, app.get() | 0.85 | MIT | fastify, hono, nestjs | ✅ |
-| Fastify | package.json:"fastify", import:{ fastify }, fastify.get() | 0.80 | MIT | express, hono, nestjs | ✅ |
-| Hono | package.json:"hono", import:{ hono }, hono.get() | 0.75 | MIT | express, fastify, nestjs | ✅ |
-| NestJS | package.json:"@nestjs/core", import:{ @nestjs }, @Controller | 0.88 | MIT | express, fastify, hono | ✅ |
-| Koa | package.json:"koa", import:{ koa }, app.use() | 0.70 | MIT | express, fastify | ✅ |
-| Sails.js | package.json:"sails", import:{ sails }, sails lift | 0.65 | MIT | express, fastify | ✅ |
-| AdonisJS | package.json:"@adonisjs/core", adonisrc.js, start/routes.ts | 0.60 | MIT | express, fastify | ✅ |
-| Hapi.js | package.json:"@hapi/hapi", import:{ hapi }, server.route() | 0.65 | Apache-2.0 | express, fastify | ✅ |
-| Restify | package.json:"restify", import:{ restify }, server.use() | 0.60 | MIT | express, fastify | ✅ |
-| Feathers | package.json:"@feathersjs/feathers", import:{ feathers } | 0.55 | MIT | express, nestjs | ✅ |
-
-### Database (8)
-
-| Framework | Detection Signals | Min Confidence | License | Conflicts | Version Parsing |
-|-----------|-----------------|----------------|---------|-----------|-----------------|
-| Prisma | package.json:"prisma", schema.prisma, @prisma/client | 0.90 | Apache-2.0 | drizzle-orm, typeorm | ✅ |
-| Drizzle ORM | package.json:"drizzle-orm", drizzle.config.ts, schema.ts | 0.85 | Apache-2.0 | prisma, typeorm | ✅ |
-| TypeORM | package.json:"typeorm", ormconfig.json, Entity decorator | 0.80 | MIT | prisma, drizzle-orm | ✅ |
-| Mongoose | package.json:"mongoose", import:{ mongoose }, Schema definition | 0.85 | MIT | prisma | ✅ |
-| MongoDB | package.json:"mongodb", import:{ mongodb }, mongodb:// connection | 0.80 | Apache-2.0 | postgresql, mysql | ✅ |
-| PostgreSQL | package.json:"pg", import:{ pg }, postgres:// connection | 0.78 | PostgreSQL | mongodb, mysql | ✅ |
-| MySQL | package.json:"mysql2", import:{ mysql2 }, mysql:// connection | 0.75 | GPL-2.0 | postgresql, mongodb | ✅ |
-| Redis | package.json:"ioredis", import:{ ioredis }, redis:// connection | 0.72 | MIT | none | ✅ |
-
-### Auth (6)
-
-| Framework | Detection Signals | Min Confidence | License | Conflicts | Version Parsing |
-|-----------|-----------------|----------------|---------|-----------|-----------------|
-| NextAuth.js | package.json:"next-auth", import:{ next-auth }, AuthProvider | 0.88 | ISC | clerk, auth0 | ✅ |
-| Clerk | package.json:"@clerk/nextjs", import:{ @clerk }, ClerkProvider | 0.85 | MIT | nextauth, auth0 | ✅ |
-| Auth0 | package.json:"@auth0/nextjs-auth0", import:{ @auth0 }, Auth0Provider | 0.82 | MIT | nextauth, clerk | ✅ |
-| Lucia | package.json:"lucia", import:{ lucia }, Auth adapter | 0.75 | MIT | nextauth, clerk | ✅ |
-| Firebase Auth | package.json:"firebase/auth", import:{ firebase/auth }, signInWithEmail | 0.80 | Apache-2.0 | nextauth, clerk | ✅ |
-| Supabase Auth | package.json:"@supabase/supabase-js", import:{ supabase }, signInWithPassword | 0.78 | MIT | nextauth, clerk | ✅ |
-
-### Infrastructure (8)
-
-| Framework | Detection Signals | Min Confidence | License | Conflicts | Version Parsing |
-|-----------|-----------------|----------------|---------|-----------|-----------------|
-| Vercel | vercel.json, .vercel/ directory, import:{ vercel } | 0.90 | MIT | netlify, aws | ✅ |
-| Netlify | netlify.toml, _redirects, _headers | 0.85 | MIT | vercel, aws | ✅ |
-| AWS | cdk.json, serverless.yml, sam.yaml | 0.80 | Apache-2.0 | vercel, netlify | ✅ |
-| Firebase Hosting | firebase.json, firebase deploy | 0.75 | Apache-2.0 | vercel, netlify | ✅ |
-| Cloudflare Pages | _headers, _redirects, wrangler.toml | 0.72 | Apache-2.0 | vercel, netlify | ✅ |
-| DigitalOcean | package.json:"@digitalocean/doctl", doctl | 0.65 | Apache-2.0 | aws, vercel | ✅ |
-| Heroku | package.json:"heroku", Procfile | 0.68 | EPL-2.0 | vercel, netlify | ✅ |
-| Railway | package.json:"@railway/cli", railway.json | 0.60 | MIT | vercel, heroku | ✅ |
-
-### AI/ML (5)
-
-| Framework | Detection Signals | Min Confidence | License | Conflicts | Version Parsing |
-|-----------|-----------------|----------------|---------|-----------|-----------------|
-| TensorFlow.js | package.json:"@tensorflow/tfjs", import:{ @tensorflow/tfjs }, tf.tensor() | 0.80 | Apache-2.0 | pytorch | ✅ |
-| PyTorch | package.json:"torch", import:{ torch }, torch.Tensor() | 0.75 | BSD-3-Clause | tensorflow | ✅ |
-| Transformers.js | package.json:"@xenova/transformers", import:{ pipeline } | 0.72 | Apache-2.0 | tensorflow | ✅ |
-| OpenAI | package.json:"openai", import:{ OpenAI } | 0.85 | Apache-2.0 | none | ✅ |
-| LangChain | package.json:"langchain", import:{ LangChain } | 0.78 | MIT | none | ✅ |
-
-### Payments (5)
-
-| Framework | Detection Signals | Min Confidence | License | Conflicts | Version Parsing |
-|-----------|-----------------|----------------|---------|-----------|-----------------|
-| Stripe | package.json:"@stripe/stripe-js", import:{ loadStripe } | 0.85 | MIT | paypal | ✅ |
-| PayPal | package.json:"@paypal/react-paypal-js", import:{ PayPalScriptProvider } | 0.80 | Apache-2.0 | stripe | ✅ |
-| Braintree | package.json:"@braintree/browser-detection", import:{ braintree } | 0.72 | MIT | stripe | ✅ |
-| Razorpay | package.json:"@razorpay/razorpay", import:{ Razorpay } | 0.75 | MIT | stripe | ✅ |
-| Square | package.json:"square", import:{ Client }, Square Web Payments | 0.70 | Apache-2.0 | stripe | ✅ |
-
----
-
-### Framework Detection Confidence Levels
-
-| Confidence Range | Interpretation | Action |
-|-----------------|----------------|--------|
-| 0-14% | Not detected | Ignore - insufficient evidence |
-| 15-30% | Low confidence | Include with warning flag |
-| 31-50% | Moderate confidence | Include, suggest manual verification |
-| 51-70% | High confidence | Include with standard priority |
-| 71-100% | Very high confidence | Include with high priority |
-
-### Framework Compatibility Matrix
-
-DocSense automatically detects conflicts between frameworks and provides recommendations for resolving them. Common conflict patterns include:
-
-- **Frontend Frameworks**: React conflicts with Vue, Angular, and Svelte (mutually exclusive UI libraries)
-- **Meta-Frameworks**: Next.js conflicts with Remix, Nuxt, and Gatsby (competing SSR/SSG solutions)
-- **State Management**: Redux conflicts with Zustand, Jotai, and Recoil (alternative state solutions)
-- **Database ORMs**: Prisma conflicts with Drizzle ORM and TypeORM (competing ORM solutions)
-- **Authentication**: NextAuth conflicts with Clerk and Auth0 (alternative auth solutions)
-- **Desktop**: Electron conflicts with NW.js (desktop app frameworks)
-
----
-
-### Version Parsing Support
-
-Frameworks marked with ✅ support automatic version detection through:
-- package.json version field
-- npm ls output
-- import.meta.version
-- Runtime version queries
-
-Frameworks marked with ❌ require manual version specification or use semantic versioning that cannot be automatically detected.
-
----
-
-**Total Frameworks Registered: (Ref: Section 7.0)**
 
 ---
 
@@ -10941,7 +10417,7 @@ function injectFrameworkRules(
 
 ## 24. ADDITIONAL MICRO DETAILS
 
-### 24.1 Auto-Fix Capabilities (890 Rules)
+### 24.1 Auto-Fix Capabilities (Rule counts governed by Section 7.0)
 
 All auto-fix rules follow this pattern:
 1. Validate target exists
@@ -12235,24 +11711,24 @@ function detectFrameworks(text: string): DetectedFramework[] {
 │  ├── Accessibility:       25 patterns (4 subcategories)     │
 │  ├── Performance:         17 patterns (4 subcategories)     │
 │  ├── State:               19 patterns (4 subcategories)     │
-│  ├── Security:            19 patterns (4 subcategories)     │
-│  └── Framework:           60+ patterns (14+ frameworks)     │
+│  ├── Security:            (Ref: Section 7.0) patterns     │
+│  └── Framework:           (Ref: Section 7.0) patterns       │
 │                                                              │
-│  Total Regex Patterns: 2,480                                           │
+│  Total Regex Patterns: (Ref: Section 7.0)                                           │
 │                                                              │
 │  Pattern Distribution by Super-Domain:                       │
-│  • Core Architecture: 560 (22.6%)                           │
-│  • Security & Privacy: 520 (21.0%)                          │
-│  • Platform & Desktop: 610 (24.6%)                          │
-│  • Performance & Scalability: 420 (16.9%)                    │
-│  • AI & Intelligence: 320 (12.9%)                           │
-│  • Governance & Compliance: 70 (2.8%)                       │
+│  • Core Architecture: (Ref: Section 7.0)                    │
+│  • Security & Privacy: (Ref: Section 7.0)                   │
+│  • Platform & Desktop: (Ref: Section 7.0)                    │
+│  • Performance & Scalability: (Ref: Section 7.0)            │
+│  • AI & Intelligence: (Ref: Section 7.0)                     │
+│  • Governance & Compliance: (Ref: Section 7.0)              │
 │                                                              │
-│  Verification: 560+520+610+420+320+70 = 2,480              │
+│  Verification: (Ref: Section 7.0)                           │
 │  Output Mappings:                                            │
-│  ├── Zod Equivalents: 11 type mappings                      │
-│  ├── Framer-Motion Equivalents: 4 auto-generated patterns   │
-│  └── Framework Confidence: 0-100 scale                       │
+│  ├── Zod Equivalents: (Ref: Section 7.0)                   │
+│  ├── Framer-Motion Equivalents: (Ref: Section 7.0)          │
+│  └── Framework Confidence: (Ref: Section 7.0)              │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -16247,7 +15723,7 @@ function detectGaps(matrix: RequirementTraceabilityMatrix): TraceabilityGap[] {
 │  Legend: ✅ Fully covered  ⚠️ Partial  ❌ Missing                            │
 │                                                                              │
 │  SUMMARY: 5 fully covered, 4 partial, 1 missing                              │
-│  Average Coverage: (Ref: Section 7.0).8%                                                     │
+│  Average Coverage: 78%                                                      │
 │                                                                              │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                         GAP PRIORITY LIST                                    │
@@ -17159,11 +16635,6 @@ function generateRecommendations(
 
 ---
 
-## 38. Statistical Derivation Notice
-This section intentionally contains no standalone numeric tables.
-All statistical values must be derived programmatically from Section 7.0 Canonical Statistics Block.
-Legacy parent-group summaries (v7.x) are deprecated and non-operational.
-
 ## 39. DESKTOP AUTO-FIX STRATEGY LAYER
 
 ### 39.1 Overview
@@ -17191,16 +16662,19 @@ The Desktop Auto-Fix Strategy Layer provides a comprehensive framework for autom
 
 ### 39.2 Fix Type Matrix for Desktop Rules (Auto-fixable counts governed by Section 7.0)
 
+> *Note: This table provides a representative sample of fix types. The full set of 310 auto-fixable desktop rules encompasses all types below.*
+
 | Fix Type | Description | Desktop Categories | Risk Level | Count |
 |----------|-------------|-------------------|------------|-------|
-| **config-update** | Update configuration settings | IPC Security, Window, Auto-Update | safe | 68 |
-| **code-insert** | Insert security/validation code | IPC Security, Security Hardening | moderate | 42 |
-| **flag-toggle** | Enable/disable feature flags | Window, Performance, Security | safe | 35 |
-| **handler-wrap** | Wrap handlers with validation | IPC Security, File System | moderate | 28 |
-| **default-set** | Set secure defaults | All Desktop Categories | safe | 25 |
-| **listener-add** | Add event listeners/handlers | Crash Recovery, Window | moderate | 18 |
-| **backup-create** | Create backup mechanisms | File System, Data Migration | safe | 15 |
-| **encrypt-apply** | Apply encryption to data | Security Hardening, Telemetry | risky | 14 |
+| **config-update** | Update configuration settings | IPC Security, Window, Auto-Update | safe | 85 |
+| **code-insert** | Insert security/validation code | IPC Security, Security Hardening | moderate | 55 |
+| **flag-toggle** | Enable/disable feature flags | Window, Performance, Security | safe | 45 |
+| **handler-wrap** | Wrap handlers with validation | IPC Security, File System | moderate | 38 |
+| **default-set** | Set secure defaults | All Desktop Categories | safe | 32 |
+| **listener-add** | Add event listeners/handlers | Crash Recovery, Window | moderate | 22 |
+| **backup-create** | Create backup mechanisms | File System, Data Migration | safe | 18 |
+| **encrypt-apply** | Apply encryption to data | Security Hardening, Telemetry | risky | 15 |
+| **Total** | | | | **310** |
 
 ### 39.3 Desktop Auto-Fix Execution Order
 
@@ -17592,14 +17066,16 @@ function detectConflict(fix1: DesktopFix, fix2: DesktopFix): FixConflict | null 
 | **Risky** | Security-critical, may break existing functionality | Require explicit approval + backup | Encryption changes, permission modifications |
 
 ### 39.8 Desktop Auto-Fix Statistics (Ref: Section 7.0 → SD3)
+> *Note: All desktop rule counts are governed by Section 7.0 canonical block.*
+
 Total Desktop Rules: 360  
 Total Auto-Fixable: 310  
 Non Auto-Fixable: 50  
 
 Risk Distribution:
-- Safe: 210
-- Moderate: 75
-- Risky: 25
+- Safe: 200
+- Moderate: 80
+- Risky: 30
 
 Constraint: Safe + Moderate + Risky = 310  
 Each auto-fixable rule has exactly one risk classification.
@@ -17607,10 +17083,92 @@ Each auto-fixable rule has exactly one risk classification.
 
 ---
 
-**Document Version: 8.0 | App Name: DocSense | Total Rules: 1,560 | Auto-Fix Rules: (Ref: Section 7.0) | Categories: 43 | Super-Domains: 6 | Detection Patterns: 2480 | Frameworks: (Ref: Section 7.0) | Gap Checks: 15 | Duplicate Types: 4 | Compatibility Matrix: Full | Semantic Patterns: 8 Categories (2,480 patterns) | Reasoning Chain: 5 Phases | Inference Types: 4 | Cross-Reference: 6 Relationships | AI Providers: 3+ | Deep Analysis Missions: 10 | Desktop Rules: 420 | State Machine Detection: ✅ | Field Confidence: ✅ | Multi-Signal Framework Detection: ✅ | Detection Patterns Engine: 2,480 patterns across 6 super-domains**nal Detection: ✅ | Processing: Parallel with Worker Pool | Enhancement Roadmap: 17 Features Planned | Traceability Matrix: ✅ | Impact Analysis: ✅ | Desktop Auto-Fix Strategy: ✅**
+**Document Version: 8.0 | App Name: DocSense | Total Rules: (Ref: Section 7.0) | Auto-Fix Rules: (Ref: Section 7.0) | Categories: 43 | Super-Domains: 6 | Detection Patterns: (Ref: Section 7.0) | Frameworks: (Ref: Section 7.0) | Gap Checks: 15 | Duplicate Types: 4 | Compatibility Matrix: Full | Semantic Patterns: 8 Categories ((Ref: Section 7.0) patterns) | Reasoning Chain: 5 Phases | Inference Types: 4 | Cross-Reference: 6 Relationships | AI Providers: 3+ | Deep Analysis Missions: 10 | Desktop Rules: (Ref: Section 7.0) | State Machine Detection: ✅ | Field Confidence: ✅ | Multi-Signal Framework Detection: ✅ | Detection Patterns Engine: (Ref: Section 7.0) patterns across 6 super-domains**nal Detection: ✅ | Processing: Parallel with Worker Pool | Enhancement Roadmap: 17 Features Planned | Traceability Matrix: ✅ | Impact Analysis: ✅ | Desktop Auto-Fix Strategy: ✅**
 
 
 ---
+
+
+# 📌 Section 7.9 — Pattern Registry Governance Layer (v8.3 Seal)
+
+## 7.9.1 Objective
+To establish a completely deterministic, O(1) indexed binding between the (Ref: Section 7.0) Canonical Rules and the (Ref: Section 7.0) Detection Patterns.
+
+The Pattern Registry ensures:
+1. **No orphaned patterns** (Every pattern must belong to at least one rule).
+2. **Deterministic execution cost** (Patterns are strictly typed by AST, Regex, Semantic, or Global).
+3. **Cross-domain safety** (Patterns spanning multiple Super Domains must declare explicit bridging).
+
+---
+
+## 7.9.2 Canonical Pattern ID Specification
+All (Ref: Section 7.0) detection patterns must adhere to the following identity format:
+
+```
+PAT-{SD}-{CAT}-{SEQ}-{TYPE}
+```
+
+### Components
+| Segment | Meaning                       | Format   | Example |
+| ------- | ----------------------------- | -------- | ------- |
+| `PAT`   | Pattern prefix                | Constant | PAT     |
+| `SD`    | Origin Super Domain (1–6)     | 2-digit  | SD02    |
+| `CAT`   | Origin Category (1–43)        | 2-digit  | CAT08   |
+| `SEQ`   | Sequence ID inside category   | 3-digit  | 014     |
+| `TYPE`  | Execution Cost Type           | String   | AST     |
+
+### Example:
+```
+PAT-SD02-CAT08-014-AST
+```
+
+---
+
+## 7.9.3 Pattern Execution Types (Cost Definitions)
+To support the High-Performance Evaluation Architecture (Section 7.4), patterns are divided by computational cost:
+
+| Type Code | Engine Mapping          | Expected Latency | Parallel Safe |
+| --------- | ----------------------- | ---------------- | ------------- |
+| `RGX`     | Regex / String Match    | < 0.1ms          | Yes (L1)      |
+| `AST`     | Abstract Syntax Tree    | < 2ms            | Yes (L2)      |
+| `SEM`     | Semantic AI Binding     | < 50ms (async)   | No (Queue)    |
+| `GLB`     | Global / Cross-File DAG | < 100ms          | No (Lock)     |
+
+Regex (`RGX`) and AST (`AST`) patterns run synchronously in the Worker Pool. Semantic (`SEM`) and Global (`GLB`) patterns yield to the AI Orchestration layer and require the `GlobalAnalysisLock`.
+
+---
+
+## 7.9.4 Structural Binding Rule (1:N)
+* A Canonical Rule ((Ref: Section 7.0)) may possess **1 or more** Detection Patterns.
+* A Detection Pattern ((Ref: Section 7.0)) may be shared by **multiple** rules, provided it declares a `SharedSignal` flag.
+
+```typescript
+interface CanonicalPattern {
+  patternId: string;       // e.g. PAT-SD02-CAT08-014-AST
+  type: 'RGX' | 'AST' | 'SEM' | 'GLB';
+  costWeight: number;      // 1-10 multiplier
+  sharedSignal?: boolean;  // Allows cross-rule binding
+  targetLanguage?: string; // e.g. 'typescript', 'rust'
+}
+```
+
+---
+
+## 7.9.5 Pattern Count Reconciliation Guarantee
+
+> **PATTERN_RUNTIME_GUARD:**  
+> At engine bootstrap:
+> - Load canonical statistics object from Section 7.0 data source
+> - Read `canonical.patternTotal`
+> - Compare against compiled pattern registry size
+> 
+> If mismatch:
+> ```
+> throw CanonicalDriftError("Pattern registry size mismatch with Section 7.0");
+> ```
+> 
+> The registry must never hardcode the canonical total. Explicitly forbid literal numeric equality checks.
+
 
 ### NUMERIC_GOVERNANCE_CHECK:
 All numeric rule counts outside Section 7.0 are references only.
