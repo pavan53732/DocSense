@@ -1316,7 +1316,7 @@ const DOCSENSE_CANONICAL_STATS = {
 
   detectionPatterns: 2480,
 
-  frameworksSupported: 100,
+  frameworksSupported: 118,
   aiModelsBenchmarked: 8,
 
   // ============================
@@ -2812,6 +2812,24 @@ Each framework must declare: ID, Domain, Pattern Keys, License, Flags, Super Dom
 | `F-98` | GSAP | Animation |
 | `F-99` | React Spring | Animation |
 | `F-100` | Three.js | 3D Graphics |
+| `F-101` | WinUI 3 | Windows UI Framework |
+| `F-102` | Windows App SDK | Windows Development |
+| `F-103` | MAUI | Cross-Platform .NET |
+| `F-104` | Uno Platform | Cross-Platform UI |
+| `F-105` | Avalonia | .NET Cross-Platform |
+| `F-106` | WPF | Windows Desktop |
+| `F-107` | WinForms | Windows Forms |
+| `F-108` | UWP | Universal Windows |
+| `F-109` | DirectX | Windows Graphics |
+| `F-110` | WinRT | Windows Runtime |
+| `F-111` | Win32 API | Native Windows |
+| `F-112` | PowerShell | Windows Automation |
+| `F-113` | Windows Forms | .NET Desktop |
+| `F-114` | Blazor WebAssembly | .NET WebAssembly |
+| `F-115` | .NET MAUI | Mobile .NET |
+| `F-116` | WinUI | Windows Native UI |
+| `F-117` | C++/WinRT | C++ Windows |
+| `F-118` | Rust Windows | Rust Windows API |
 
 > **FRAMEWORK_COUNT_ENFORCEMENT:**  
 > Total Registered Frameworks: (Ref: Section 7.0)  
@@ -10893,6 +10911,55 @@ const duplicates = detectSemanticDuplicates(systemModel);
 // }
 ```
 
+### 26.7 Advanced Duplicate Detection Features
+
+#### 26.7.1 Cross-Document Entity Resolution
+| Feature | Description | Threshold |
+|---------|-------------|----------|
+| **Fuzzy Name Matching** | Detect entities with similar names | 80% |
+| **Synonym Detection** | Identify semantically equivalent terms | 75% |
+| **Abbreviation Resolution** | Match abbreviations to full names | 85% |
+| **Plural/Singular Detection** | Match user/users, api/APIs | 90% |
+| **CamelCase/Snake Case** | Normalize naming conventions | 95% |
+
+#### 26.7.2 Code Clone Detection
+| Type | Description | Detection Method |
+|------|-------------|------------------|
+| **Exact Clone** | Identical code blocks | String matching |
+| **Type-1 Clone** | Whitespace/comments differ | AST comparison |
+| **Type-2 Clone** | Identifier names differ | Token-based |
+| **Type-3 Clone** | Statements modified | Token + transformation |
+| **Semantic Clone** | Functionally equivalent | AI semantic analysis |
+
+#### 26.7.3 Duplicate Auto-Fix Capabilities
+
+```typescript
+interface DuplicateAutoFix {
+  // Entity deduplication
+  mergeEntities: {
+    preservePrimary: boolean;
+    combineProperties: boolean;
+    updateReferences: boolean;
+    createAlias: boolean;
+  };
+  
+  // Flow deduplication
+  deduplicateFlows: {
+    extractCommonSteps: boolean;
+    createSharedSubflow: boolean;
+    redirectReferences: boolean;
+  };
+  
+  // Code clone handling
+  handleClones: {
+    extractToFunction: boolean;
+    createSharedModule: boolean;
+    applyTemplate: boolean;
+    inlineIfSmall: boolean;
+  };
+}
+```
+
 ---
 
 ## 27. COMPATIBILITY MATRIX
@@ -17089,7 +17156,124 @@ function generateRecommendations(
 
 ## 37. EXTENDED DESKTOP RULE CATEGORIES
 
-### 37.1 Offline-First & Sync Rules (Rule counts are governed by Section 7.0) ⭐ NEW
+### 37.1 Windows Native App Integration Rules ⭐ NEW
+
+#### 37.1.1 Windows Registry Rules
+| Rule ID | Description | Impact | Auto-Fix |
+|---------|-------------|--------|----------|
+| `rule-win-reg-read-access` | Validate registry read access permissions | high | ✅ |
+| `rule-win-reg-write-access` | Validate registry write access permissions | critical | ✅ |
+| `rule-win-reg-hkey-localmachine` | Check HKLM usage for system settings | medium | ✅ |
+| `rule-win-reg-hkey-currentuser` | Prefer HKCU for user settings | low | ✅ |
+| `rule-win-reg-no-hardcoded-path` | No hardcoded registry paths | medium | ✅ |
+| `rule-win-reg-backup-before-write` | Backup registry before modifications | high | ✅ |
+| `rule-win-reg-transaction-support` | Use registry transactions when available | medium | ✅ |
+| `rule-win-reg-clean-uninstall` | Clean registry on uninstall | high | ✅ |
+
+#### 37.1.2 Windows COM/ActiveX Rules
+| Rule ID | Description | Impact | Auto-Fix |
+|---------|-------------|--------|----------|
+| `rule-win-com-initialization` | Proper COM initialization/cleanup | critical | ✅ |
+| `rule-win-com-apartment-model` | Correct apartment model usage | high | ✅ |
+| `rule-win-com-memory-management` | Proper COM memory management | critical | ✅ |
+| `rule-win-com-interface-references` | Interface reference counting | critical | ✅ |
+| `rule-win-com-thread-safety` | Thread-safe COM object access | critical | ✅ |
+| `rule-win-com-no-activex-embedding` | Avoid unsafe ActiveX embedding | high | ✅ |
+| `rule-win-com-proxy-stub` | Proper proxy/stub registration | medium | ✅ |
+
+#### 37.1.3 Windows File System Rules
+| Rule ID | Description | Impact | Auto-Fix |
+|---------|-------------|--------|----------|
+| `rule-win-fs-long-path-support` | Support Windows long paths (260+ chars) | high | ✅ |
+| `rule-win-fs-unicode-paths` | Use Unicode for file paths | medium | ✅ |
+| `rule-win-fs-temp-directory` | Use proper temp directory | medium | ✅ |
+| `rule-win-fs-path-separator` | Handle both \ and / separators | low | ✅ |
+| `rule-win-fs-no-admin-rights` | Run without admin rights when possible | high | ✅ |
+| `rule-win-fs-uac-compliance` | UAC-compliant file operations | critical | ✅ |
+| `rule-win-fs-alternate-data-streams` | Handle alternate data streams | medium | ✅ |
+| `rule-win-fs-junction-points` | Handle junction points safely | medium | ✅ |
+
+#### 37.1.4 Windows Networking Rules
+| Rule ID | Description | Impact | Auto-Fix |
+|---------|-------------|--------|----------|
+| `rule-win-net-winhttp-usage` | Use WinHTTP for system HTTP requests | high | ✅ |
+| `rule-win-net-wininet-deprecated` | Avoid deprecated WinINet for new apps | medium | ✅ |
+| `rule-win-net-proxy-auto-detect` | Support proxy auto-detection | medium | ✅ |
+| `rule-win-net-ipv6-support` | Full IPv6 support | medium | ✅ |
+| `rule-win-net-firewall-rules` | Handle Windows Firewall | high | ✅ |
+| `rule-win-net-network-list-api` | Use Network List API for connectivity | medium | ✅ |
+| `rule-win-net-winsock-usage` | Proper Winsock initialization | high | ✅ |
+
+#### 37.1.5 Windows Performance Rules
+| Rule ID | Description | Impact | Auto-Fix |
+|---------|-------------|--------|----------|
+| `rule-win-perf-high-dpi-support` | Support high DPI displays | high | ✅ |
+| `rule-win-perf-theme-manifest` | Use theme manifest | low | ✅ |
+| `rule-win-perf-memory-limit` | Respect memory limits for 32-bit | medium | ✅ |
+| `rule-win-perf-wow64-compatibility` | Proper WOW64 compatibility | medium | ✅ |
+| `rule-win-perf-gpu-acceleration` | Enable GPU acceleration when available | medium | ✅ |
+| `rule-win-perf-taskbar-preview` | Provide taskbar preview | low | ✅ |
+| `rule-win-perf-jump-lists` | Use Jump Lists properly | low | ✅ |
+
+#### 37.1.6 Windows Security Rules
+| Rule ID | Description | Impact | Auto-Fix |
+|---------|-------------|--------|----------|
+| `rule-win-sec-code-signing` | Require code signing | critical | ✅ |
+| `rule-win-sec-credential-manager` | Use Credential Manager for passwords | critical | ✅ |
+| `rule-win-sec-dpapi-usage` | Use DPAPI for sensitive data | critical | ✅ |
+| `rule-win-sec-schannel-cipher` | Configure secure SChannel ciphers | critical | ✅ |
+| `rule-win-sec-windows-defender` | Handle Windows Defender scanning | high | ✅ |
+| `rule-win-sec-smart-screen` | Implement SmartScreen integration | high | ✅ |
+| `rule-win-sec-appLocker-policy` | Support AppLocker policies | medium | ✅ |
+| `rule-win-sec-windows-hello` | Support Windows Hello authentication | high | ✅ |
+
+#### 37.1.7 Windows Shell Integration Rules
+| Rule ID | Description | Impact | Auto-Fix |
+|---------|-------------|--------|----------|
+| `rule-win-shell-taskbar-progress` | Show taskbar progress | medium | ✅ |
+| `rule-win-shell-thumbnail-toolbar` | Provide thumbnail toolbar buttons | low | ✅ |
+| `rule-win-shell-file-association` | Proper file association registration | high | ✅ |
+| `rule-win-shell-protocol-handler` | Custom protocol handler registration | high | ✅ |
+| `rule-win-shell-context-menu` | Proper context menu integration | medium | ✅ |
+| `rule-win-shell-notification-toast` | Use Windows Toast notifications | medium | ✅ |
+| `rule-win-shell-start-menu` | Proper Start Menu integration | medium | ✅ |
+| `rule-win-shell-system-tray` | Proper system tray behavior | medium | ✅ |
+
+#### 37.1.8 Windows Auto-Fix Capabilities
+
+```typescript
+interface WindowsAutoFixStrategies {
+  // Registry fixes
+  registryFixes: {
+    backupBeforeWrite: boolean;
+    useTransactions: boolean;
+    validationBeforeWrite: boolean;
+  };
+  
+  // File system fixes
+  fileSystemFixes: {
+    normalizePaths: boolean;
+    createBackup: boolean;
+    handleLongPaths: boolean;
+  };
+  
+  // Security fixes
+  securityFixes: {
+    signCode: boolean;
+    updateManifest: boolean;
+    configureUAC: boolean;
+  };
+  
+  // Performance fixes
+  performanceFixes: {
+    addHighDPIManifest: boolean;
+    optimizeMemory: boolean;
+    enableGPUAcceleration: boolean;
+  };
+}
+```
+
+### 37.2 Offline-First & Sync Rules (Rule counts are governed by Section 7.0) ⭐ NEW
 
 | Rule ID | Description | Impact | Auto-Fix |
 |---------|-------------|--------|----------|
